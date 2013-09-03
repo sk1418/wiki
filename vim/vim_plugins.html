@@ -1,0 +1,378 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>vim_plugins</title>
+<link rel="stylesheet" type="text/css" href="../template/style/main.css" />
+<link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
+<script type="text/javascript" src="../template/js/jquery.js"></script>
+<!--For code highlighting-->
+<script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushVim.js"></script>
+<script type="text/javascript" src="../template/js/shBrushBash.js"></script>
+<script type="text/javascript" src="../template/js/shBrushCss.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJava.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPython.js"></script>
+<script type="text/javascript" src="../template/js/shBrushSql.js"></script>
+<script type="text/javascript" src="../template/js/shBrushXml.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		SyntaxHighlighter.all();
+		if (window.innerWidth >= 460) {
+		var toggler = $('<div class="toggler" title="Toggle Table Of Content">Table Of Content</div>');
+		toc = $('.toc');
+		toc.wrap('<div class="tocWrap">');
+
+		$('.tocWrap').prepend(toggler)
+		.delay(500)
+		.fadeTo(500, '0.7')
+		.hover(function() {
+			$(this).stop().fadeTo(300, '0.9');
+			}, function() {
+			$(this).stop().fadeTo(300, '0.7');
+			});
+
+		$('html').keypress(function(e) {
+			if (e.shiftKey && (e.charCode || e.keyCode) == '90') {
+			e.preventDefault();
+			$('div.tocWrap').toggle(200);
+			}
+			});
+
+		toggler.click(function() {
+				$('div.toc').slideToggle(300);
+				});
+		}
+
+		$("a,h1,h2,h3,h4,h5,h6").filter(function(index){
+			return $(this).text()=='!Important!';
+				}).addClass("importantMarker");
+
+		
+
+});
+
+
+
+</script>
+</head>
+<body >
+<header id="header">
+<div id="logo" style="font-size: 22pt;text-align:center;"><a href="#">Kent's Wiki</a></div>
+</header>
+<div id="wrap">
+<div id="content">
+
+<h1 id="toc_1">xml</h1>
+
+
+<p>
+Full help <strong>:h xml-plugin</strong> 
+</p>
+
+<ul>
+<li>
+<code>&lt;leader&gt;c</code> : rename tag (only tag name)
+
+<li>
+<code>&lt;leader&gt;C</code> : rename tag completely. (with attributes)
+
+<li>
+<code>&lt;leader&gt;d</code> : (cursor on tag) delete tag pair, leaving the content
+
+<li>
+<code>&lt;leader&gt;D</code> : (cursor on tag) delete tag pair <strong>with</strong> the content
+
+<li>
+<code>&lt;leader&gt;&gt;</code> : shift everything in the tag right
+
+<li>
+<code>&lt;leader&gt;&lt;</code> : shift everything in the tag left 
+
+<li>
+<code>&lt;leader&gt;o</code> : (cusor on tag) insert a tag under the current one e.g.
+
+</ul>
+ 
+<pre>
+
+   &lt;a(I)&gt;
+		&lt;b&gt;foo&lt;/b&gt;
+	&lt;/a&gt;
+
+</pre>
+
+<p>
+to
+</p>
+
+<pre>
+   &lt;a&gt;
+		&lt;new&gt;
+    		&lt;b&gt;foo&lt;/b&gt;
+		&lt;/new&gt;
+	&lt;/a&gt;
+	
+</pre>
+  
+<ul>
+<li>
+&lt;leader&gt;O : (cusor on tag) insert a tag outside the current one e.g.
+<pre>
+   &lt;a(I)&gt;
+		&lt;b&gt;foo&lt;/b&gt;
+	&lt;/a&gt;
+
+</pre>
+
+</ul>
+  
+<p>
+to
+</p>
+
+<pre>
+  
+   &lt;new&gt;
+		&lt;a&gt;
+    		&lt;b&gt;foo&lt;/b&gt;
+		&lt;/a&gt;
+	&lt;/new&gt;
+	
+</pre>
+ 
+<h1 id="toc_2">autoClose 2009</h1>
+
+<p>
+Full help <strong>:h autoclose.txt</strong>
+</p>
+
+<ul>
+<li>
+customize  open/close char:
+<pre>
+ let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"', "'": "'"} 
+</pre>
+
+</ul>
+
+<ul>
+<li>
+toggle autoclose plugin : &lt;leader&gt;ac (defined in vimrc)
+
+</ul>
+
+
+
+<h1 id="toc_3">DrawIt</h1>
+
+<p>
+Full help <strong>:h drawit</strong>
+</p>
+
+<ul>
+<li>
+<code>&lt;leader&gt;di</code>          : start drawIt (or : DIstart)
+
+<li>
+<code>&lt;leader&gt;ds</code>          : stop drawIt (or  : DIstop)
+
+<li>
+<code>&lt;s-left/right/up/d&gt;</code> : move cursor without drawing line
+
+<li>
+<code>&lt;space&gt;</code>             : toggle (into /out of) erase mode`````
+
+</ul>
+
+<ul>
+<li>
+<code>&lt;pgDn&gt;</code>              : \ (then move down and right)
+
+<li>
+<code>&lt;pgUp&gt;</code>              : / (then move up and right)
+
+<li>
+<code>&lt;home&gt;</code>              : \ (then move up and left)
+
+<li>
+<code>&lt;end&gt;</code>               : / (then move down and left)
+
+</ul>
+
+<p>
+In <strong>Visual</strong> Mode:
+</p>
+<ul>
+<li>
+visual block then &lt;leader&gt;a : draw arrow from corners
+
+<li>
+visual block then &lt;leader&gt;b : draw box
+
+<li>
+visual block then &lt;leader&gt;e : draw eclipse
+
+</ul>
+ 
+<h1 id="toc_4">fencView</h1>
+
+<p>
+<code>:FencView</code>  -&gt; open encoding list window
+</p>
+
+<h1 id="toc_5">surround</h1>
+
+<p>
+Full help <strong>:h surround</strong>
+</p>
+
+<pre>
+  
+  Old text                  Command     New text ~
+  "Hello *world!"           ds"         Hello world!
+  [123+4*56]/2              cs])        (123+456)/2
+  "Look ma, I'm *HTML!"     cs"&lt;q&gt;      &lt;q&gt;Look ma, I'm HTML!&lt;/q&gt;
+  if *x&gt;3 {                 ysW(        if ( x&gt;3 ) {
+  Hello w*orld!             ysiw)       Hello (world)!  (you surround)
+  Hello w*orld!             yssB        {Hello world!}  yss=do it on current line
+  my $str = *whee!;         vlllls'     my $str = 'whee!';
+
+  ys = you surround
+  yss do surrounding on the current line
+
+  There is also *yS* and *ySS* which indent the surrounded text and place it on a line of its own.
+
+</pre>
+
+
+ 
+<h1 id="toc_6">easyMotion</h1>
+
+<p>
+Full help <strong>:h easymotion</strong>
+</p>
+
+<ul>
+<li>
+<code>&lt;leader&gt;&lt;leader&gt;w</code> : find word forward
+
+<li>
+<code>&lt;leader&gt;&lt;leader&gt;b</code> : find word backward
+
+<li>
+<code>&lt;leader&gt;&lt;leader&gt;f</code> : find char to the right
+
+<li>
+<code>&lt;leader&gt;&lt;leader&gt;F</code> : find char to the left
+
+<li>
+<code>&lt;leader&gt;&lt;leader&gt;j</code> : find line downward
+
+<li>
+<code>&lt;leader&gt;&lt;leader&gt;k</code> : find line upward
+
+</ul>
+
+ 
+<h1 id="toc_7">ack.vim</h1>
+
+<p>
+Full help <code>:h ack</code>
+</p>
+ 
+ 
+<h1 id="toc_8">YankRing</h1>
+
+<p>
+<strong>Plugin Removed</strong>
+</p>
+
+<p>
+Full help <strong>:h yankring</strong>
+</p>
+
+<ul>
+<li>
+:YRShow open yankring window
+
+<li>
+:YRClear clear yankring 
+
+<li>
+:YRToggle [0|1] dis/enable yankring
+
+</ul>
+
+<h1 id="toc_9">NERD_Tree</h1>
+
+<p>
+Full help <code>:h NERDTree</code>
+</p>
+
+<ul>
+<li>
+<code>B</code> : show/hide bookmark
+
+<li>
+<code>I</code> : show/hide hidden files
+
+</ul>
+
+<h1 id="toc_10">NERD_Commenter</h1>
+
+<p>
+Full help <code>:h NERDCommenter</code> 
+</p>
+
+
+<h1 id="toc_11">vimwiki</h1>
+
+<p>
+Full help <code>:h vimwiki</code> 
+</p>
+
+<h2 id="toc_11.1">General</h2>
+<ul>
+<li>
+<code>-</code> : reduce header level
+
+<li>
+<code>=</code> : add header level
+
+<li>
+<code>+</code> : change text into link
+
+<li>
+<code>glm</code> : increase indent of a list item 
+
+<li>
+<code>gll</code> : decrease indent of a list item 
+
+</ul>
+
+<h2 id="toc_11.2">Diary</h2>
+
+<h2 id="toc_11.3">Todo List</h2>
+
+<hr />
+<ol>
+<li>
+vim: set fen=off
+
+</ol>
+
+<p>
+<a href="../index.html">&lt;&lt;Back</a>
+</p>
+
+</div>
+</div>
+<div id="footer">
+<a href="http://www.vim.org" target="_blank"><img border="0" src="../template/images/vimLogo.png" alt="Created with Vim" height="36" width="90"></a>
+</div>
+</body>
+</html>

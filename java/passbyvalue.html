@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>passbyvalue</title>
+<link rel="stylesheet" type="text/css" href="../template/style/main.css" />
+<link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
+<script type="text/javascript" src="../template/js/jquery.js"></script>
+<!--For code highlighting-->
+<script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushVim.js"></script>
+<script type="text/javascript" src="../template/js/shBrushBash.js"></script>
+<script type="text/javascript" src="../template/js/shBrushCss.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJava.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPython.js"></script>
+<script type="text/javascript" src="../template/js/shBrushSql.js"></script>
+<script type="text/javascript" src="../template/js/shBrushXml.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		SyntaxHighlighter.all();
+		if (window.innerWidth >= 460) {
+		var toggler = $('<div class="toggler" title="Toggle Table Of Content">Table Of Content</div>');
+		toc = $('.toc');
+		toc.wrap('<div class="tocWrap">');
+
+		$('.tocWrap').prepend(toggler)
+		.delay(500)
+		.fadeTo(500, '0.7')
+		.hover(function() {
+			$(this).stop().fadeTo(300, '0.9');
+			}, function() {
+			$(this).stop().fadeTo(300, '0.7');
+			});
+
+		$('html').keypress(function(e) {
+			if (e.shiftKey && (e.charCode || e.keyCode) == '90') {
+			e.preventDefault();
+			$('div.tocWrap').toggle(200);
+			}
+			});
+
+		toggler.click(function() {
+				$('div.toc').slideToggle(300);
+				});
+		}
+
+		$("a,h1,h2,h3,h4,h5,h6").filter(function(index){
+			return $(this).text()=='!Important!';
+				}).addClass("importantMarker");
+
+		
+
+});
+
+
+
+</script>
+</head>
+<body >
+<header id="header">
+<div id="logo" style="font-size: 22pt;text-align:center;"><a href="#">Kent's Wiki</a></div>
+</header>
+<div id="wrap">
+<div id="content">
+
+<h2 id="toc_0.1">Details</h2>
+
+<p>
+The problem we're facing here is statements like
+</p>
+
+<p>
+In Java, Objects are passed by reference, and primitives are passed by value.
+</p>
+
+<p>
+This is half incorrect. Everyone can easily agree that primitives are passed by value; there's no such thing in Java as a pointer/reference to a primitive.
+</p>
+
+<p>
+However, Objects are not passed by reference. A correct statement would be Object references are passed by value.
+</p>
+
+<p>
+This may seem like splitting hairs, bit it is far from it. There is a world of difference in meaning. The following examples should help make the distinction.
+</p>
+
+<p>
+In Java, take the case of
+</p>
+
+<p>
+Figure 5: (Java) Pass-by-value example
+</p>
+<pre class="brush: java">
+public void foo(Dog d) {
+    d = new Dog("Fifi"); // creating the "Fifi" dog
+}
+
+
+
+Dog aDog = new Dog("Max"); // creating the "Max" dog
+// at this point, aDog points to the "Max" dog
+foo(aDog);
+// aDog still points to the "Max" dog
+</pre>
+
+<p>
+the variable passed in (aDog) is not modified! After calling foo, aDog still points to the "Max" Dog!
+</p>
+
+
+<p>
+Many people mistakenly think/state that something like
+</p>
+
+<p>
+Figure 6: (Java) Still pass-by-value...
+</p>
+<pre class="brush: java">
+public void foo(Dog d) { 
+    d.setName("Fifi");
+}
+</pre>
+<p>
+shows that Java does in fact pass objects by reference.
+</p>
+
+<p>
+The mistake they make is in the definition of
+</p>
+
+<p>
+Figure 7: (Java) Defining a Dog pointer
+</p>
+<pre>
+Dog d;
+</pre>
+<p>
+itself. When you write that definition, you are defining a pointer to a Dog object, not a Dog object itself.
+</p>
+<h2 id="toc_0.2">On Pointers versus References...</h2>
+
+<p>
+The problem here is that the folks at Sun made a naming mistake.
+</p>
+
+<p>
+In programming language design, a "pointer" is a variable that indirectly tracks the location of some piece of data. The value of a pointer is often the memory address of the data you're interested in. Some languages allow you to manipulate that address; others do not.
+</p>
+
+<p>
+A "reference" is an alias to another variable. Any manipulation done to the reference variable directly changes the original variable.
+</p>
+
+<p>
+Check out the second sentence of <a href="http://java.sun.com/docs/books/jls/third_edition/html/typesValues.html#4.3.1.">http://java.sun.com/docs/books/jls/third_edition/html/typesValues.html#4.3.1.</a>
+</p>
+
+<p>
+"The reference values (often just references) are pointers to these objects, and a special null reference, which refers to no object"
+They emphasize "pointers" in their description... Interesting...
+</p>
+
+<p>
+When they originally were creating Java, they had "pointer" in mind (you can see some remnants of this in things like
+NullPointerException).
+</p>
+
+<p>
+Sun wanted to push Java as a secure language, and one of Java's advantages was that it does not allow pointer arithmetic as C++ does.
+</p>
+
+<p>
+They went so far as to try a different name for the concept, formally calling them "references". A big mistake and it's caused even more confusion in the process.
+</p>
+
+<p>
+There's a good explanation of reference variables at <a href="http://www.cprogramming.com/tutorial/references.html.">http://www.cprogramming.com/tutorial/references.html.</a> (C++ specific, but it says the right thing about the concept of a reference variable.)
+</p>
+
+<p>
+The word "reference" in programming language design originally comes from how you pass data to subroutines/functions/procedures/methods. A reference parameter is an alias to a variable passed as a parameter.
+</p>
+
+<p>
+In the end, Sun made a naming mistake that's caused confusion. Java has pointers, and if you accept that, it makes the way Java behaves make much more sense.
+</p>
+
+<h2 id="toc_0.3">Calling Methods</h2>
+
+<p>
+Calling
+</p>
+
+<p>
+Figure 8: (Java) Passing a pointer by value
+</p>
+
+<pre class="brush: java">
+foo(d);
+</pre>
+<p>
+passes the *<strong>value of d</strong>* to foo; it does not pass the object that d points to!
+</p>
+
+<p>
+The value of the pointer being passed is similar to a memory address. Under the covers it may be a tad different, but you can think of it in exactly the same way. The value uniquely identifies some object on the heap.
+</p>
+
+<p>
+<strong>However</strong>, it makes no difference how pointers are <strong>implemented</strong> under the covers. You program with them exactly the same way in Java as you would in C or C++. The syntax is just slightly different (another poor choice in Java's design; they should have used the same -&gt; syntax for de-referencing as C++).
+</p>
+
+<p>
+In Java,
+</p>
+
+<p>
+Figure 9: (Java) A pointer
+</p>
+
+<pre class="brush: java">
+Dog d;
+</pre>
+<p>
+is exactly like C++'s
+</p>
+
+<p>
+Figure 10: (C++) A pointer
+</p>
+<pre class="brush: java">
+Dog *d;
+</pre>
+  
+<p>
+And using
+Figure 11: (Java) Following a pointer and calling a method
+</p>
+
+<pre class="brush: java">
+d.setName("Fifi");
+</pre>
+<p>
+is exactly like C++'s
+</p>
+
+<p>
+Figure 12: (C++) Following a pointer and calling a method
+</p>
+<pre class="brush: c++>
+d-&gt;setName("Fifi");
+</pre>
+<p>
+To sum up: Java has pointers, and the value of the pointer is passed in. There's no way to actually pass an object itself as a parameter. You can only pass a pointer to an object.
+</p>
+
+<p>
+Keep in mind, when you call
+</p>
+
+<p>
+Figure 13: (Java) Even more still passing a pointer by value
+</p>
+
+<pre class="brush: java>
+foo(d);
+</pre>
+<p>
+you're not passing an object; you're passing a pointer to the object.
+</p>
+
+<p>
+For a slightly different (but still correct) take on this issue, please see <a href="http://www-106.ibm.com/developerworks/library/j-praxis/pr1.html.">http://www-106.ibm.com/developerworks/library/j-praxis/pr1.html.</a> It's from Peter Haggar's excellent book, Practical Java.)
+</p>
+
+<h2 id="toc_0.4">Follow up from stackoverflow.com</h2>
+
+<p>
+Link: <a href="http://stackoverflow.com/questions/40480/is-java-pass-by-reference">http://stackoverflow.com/questions/40480/is-java-pass-by-reference</a>
+</p>
+
+<p>
+The Java Spec says that everything in java is pass-by-value. There is no such thing as "pass-by-reference" in java.
+</p>
+
+<p>
+The key to understanding this is that something like
+</p>
+
+<p>
+Figure 14: (Java) Not a Dog; a pointer to a Dog
+</p>
+
+<pre class="brush: java>
+Dog myDog;
+</pre>
+  
+<p>
+is not a Dog; it's actually a pointer to a Dog.
+</p>
+
+<p>
+What that means, is when you have
+</p>
+
+<p>
+Figure 15: (Java) Passing the Dog's location
+</p>
+<pre class="brush: java>
+Dog myDog = new Dog("Rover");
+foo(myDog);
+</pre>
+<p>
+you're essentially passing the address of the created Dog object to the foo method. (I say essentially b/c java pointers aren't direct addresses, but it's easiest to think of them that way)
+</p>
+
+<p>
+Suppose the Dog object resides at memory address 42. This means we pass 42 to the method.
+</p>
+
+<p>
+If the Method were defined as
+</p>
+
+<p>
+Figure 16: (Java) Looking at the called method in detail
+</p>
+<pre class="brush: java>
+public void foo(Dog someDog) {
+    someDog.setName("Max");     // AAA
+    someDog = new Dog("Fifi");  // BBB
+    someDog.setName("Rowlf");   // CCC
+}
+</pre>
+
+<p>
+Let's look at what's happening.
+</p>
+
+<p>
+the parameter someDog is set to the value 42
+</p>
+<pre>
+at line "AAA"
+someDog is followed to the Dog it points to (the Dog object at address 42) that Dog (the one at address 42) is asked to change his name to Max
+at line "BBB"
+a new Dog is created. Let's say he's at address 74 we assign the parameter someDog to 74
+at line "CCC"
+someDog is followed to the Dog it points to (the Dog object at address 74) that Dog (the one at address 74) is asked to change his name to Rowlf then, we return
+Now let's think about what happens outside the method:
+</pre>
+  
+<p>
+<strong>Did myDog change?</strong>
+</p>
+
+<p>
+There's the key.
+</p>
+
+<p>
+Keeping in mind that myDog is a pointer, and not an actual Dog, the answer is NO. myDog still has the value 42; it's still pointing to the original Dog.
+</p>
+
+<p>
+It's perfectly valid to follow an address and change what's at the end of it; that does not change the variable, however.
+</p>
+
+<p>
+Java works exactly like C. You can assign a pointer, pass the pointer to a method, follow the pointer in the method and change the data that was pointed to. However, you cannot change where that pointer points.
+</p>
+
+<p>
+In C++, Ada, Pascal and other languages that support pass-by-reference, you can actually change the variable that was passed.
+</p>
+
+<p>
+If Java had pass-by-reference semantics, the foo method we defined above would have changed where myDog was pointing when it assigned someDog on line BBB.
+</p>
+
+<p>
+Think of reference parameters as being aliases for the variable passed in. When that alias is assigned, so is the variable that was passed in.
+</p>
+
+<p>
+<a href="../index.html">&lt;&lt;Back</a>
+</p>
+
+</div>
+</div>
+<div id="footer">
+<a href="http://www.vim.org" target="_blank"><img border="0" src="../template/images/vimLogo.png" alt="Created with Vim" height="36" width="90"></a>
+</div>
+</body>
+</html>

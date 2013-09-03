@@ -1,0 +1,652 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>vim Tips</title>
+<link rel="stylesheet" type="text/css" href="../template/style/main.css" />
+<link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
+<script type="text/javascript" src="../template/js/jquery.js"></script>
+<!--For code highlighting-->
+<script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushVim.js"></script>
+<script type="text/javascript" src="../template/js/shBrushBash.js"></script>
+<script type="text/javascript" src="../template/js/shBrushCss.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJava.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPython.js"></script>
+<script type="text/javascript" src="../template/js/shBrushSql.js"></script>
+<script type="text/javascript" src="../template/js/shBrushXml.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		SyntaxHighlighter.all();
+		if (window.innerWidth >= 460) {
+		var toggler = $('<div class="toggler" title="Toggle Table Of Content">Table Of Content</div>');
+		toc = $('.toc');
+		toc.wrap('<div class="tocWrap">');
+
+		$('.tocWrap').prepend(toggler)
+		.delay(500)
+		.fadeTo(500, '0.7')
+		.hover(function() {
+			$(this).stop().fadeTo(300, '0.9');
+			}, function() {
+			$(this).stop().fadeTo(300, '0.7');
+			});
+
+		$('html').keypress(function(e) {
+			if (e.shiftKey && (e.charCode || e.keyCode) == '90') {
+			e.preventDefault();
+			$('div.tocWrap').toggle(200);
+			}
+			});
+
+		toggler.click(function() {
+				$('div.toc').slideToggle(300);
+				});
+		}
+
+		$("a,h1,h2,h3,h4,h5,h6").filter(function(index){
+			return $(this).text()=='!Important!';
+				}).addClass("importantMarker");
+
+		
+
+});
+
+
+
+</script>
+</head>
+<body >
+<header id="header">
+<div id="logo" style="font-size: 22pt;text-align:center;"><a href="#">Kent's Wiki</a></div>
+</header>
+<div id="wrap">
+<div id="content">
+
+<div class="toc">
+<ul>
+<li><a href="#toc_1">TODO</a>
+<li><a href="#toc_2">!Important!</a>
+<ul>
+<li><a href="#toc_2.1">Tricks</a>
+<li><a href="#toc_2.2">regex</a>
+<li><a href="#toc_2.3">handle search result</a>
+</ul>
+<li><a href="#toc_3">Settings</a>
+<li><a href="#toc_4">Windows</a>
+<li><a href="#toc_5">Normal mode</a>
+<ul>
+<li><a href="#toc_5.1">Delete</a>
+<li><a href="#toc_5.2">Motion</a>
+<li><a href="#toc_5.3">Format</a>
+</ul>
+<li><a href="#toc_6">Insert mode</a>
+<li><a href="#toc_7">Command mode</a>
+<ul>
+<li><a href="#toc_7.1">Commands</a>
+<li><a href="#toc_7.2">Execute and normal!</a>
+<li><a href="#toc_7.3">useful atoms for matching</a>
+</ul>
+<li><a href="#toc_8">Search and Regex</a>
+<ul>
+<li><a href="#toc_8.1">Search</a>
+<li><a href="#toc_8.2">Patterns</a>
+<ul>
+<li><a href="#toc_8.2.1">Visual area/block</a>
+<li><a href="#toc_8.2.2">lines</a>
+<li><a href="#toc_8.2.3">columns</a>
+</ul>
+<li><a href="#toc_8.3">Regex</a>
+<ul>
+<li><a href="#toc_8.3.1">character class</a>
+<li><a href="#toc_8.3.2">some special character class</a>
+<li><a href="#toc_8.3.3">Ordinary atoms</a>
+<li><a href="#toc_8.3.4">Other Patterns</a>
+</ul>
+<li><a href="#toc_8.4">Handle search result (by / or ?)</a>
+<li><a href="#toc_8.5">Copy/Move lines</a>
+</ul>
+<li><a href="#toc_9">script</a>
+<ul>
+<li><a href="#toc_9.1">get visual selection</a>
+</ul>
+<li><a href="#toc_10">Misc Tips</a>
+<ul>
+<li><a href="#toc_10.1">Mapping</a>
+</ul>
+<li><a href="#toc_11">About <code>!</code></a>
+</ul>
+</div>
+<h1 id="toc_1">TODO</h1>
+<p>
+:h caddexpr (:h cad)   (write into quickfix)
+:help curly-braces-names
+:ilist or [I
+:colder :cnewer
+vim setreg() (google keep)
+ctrl-e and ctrl-y
+alternative buffer (#)
+</p>
+
+<p>
+:e # reopen closed buffer
+<hr />
+</p>
+<h1 id="toc_2">!Important!</h1>
+<h2 id="toc_2.1">Tricks</h2>
+<ul>
+<li>
+highlight word under cursor: <code>/\k*\%#\k*</code>
+
+</ul>
+<h2 id="toc_2.2">regex</h2>
+
+<ul>
+<li>
+<code>\%23c</code>	 Matches in a specific column.
+
+<li>
+<code>\%&lt;23c</code>	Matches before a specific column.
+
+<li>
+<code>\%&gt;23c</code>	Matches after a specific column.
+
+<li>
+<code>\%[]</code>	A sequence of optionally matched atoms.  This always matches.
+	It matches as much of the list of atoms it contains as possible.  Thus
+	it stops at the first atom that doesn't match.  For example: &gt;
+		<code>/r\%[ead]</code>
+	matches "r", "re", "rea" or "read".  The longest that matches is used.
+	To match the Ex command "function", where "fu" is required and
+	"nction" is optional, this would work:
+		<code>/\&lt;fu\%[nction]\&gt;</code>
+
+</ul>
+<h2 id="toc_2.3">handle search result</h2>
+<ul>
+<li>
+<code>/foo&lt;CR&gt;</code> : do the search
+
+<li>
+<code>v//e&lt;CR&gt;</code> : visual select the current match (cusor location)
+
+<li>
+<code>d//e&lt;CR&gt;</code> : delete the current match
+
+<li>
+<code>c//e&lt;CR&gt;</code> : change the current match
+
+<li>
+<code>//&lt;CR&gt;</code>   : move to  the beginning of next match
+
+</ul>
+
+
+<p>
+!Important! ends
+<hr />
+</p>
+<h1 id="toc_3">Settings</h1>
+<ul>
+<li>
+<code>:set display = lastline </code>"display complete content
+
+<li>
+<code>:set list</code> "show hidden chars
+
+<li>
+<code>:set revins</code>  "insert text reverse, (paste text works <strong>only in insert (by i,a,c) mode</strong> by C-R [reg]). :set ri :set nori
+
+</ul>
+
+<h1 id="toc_4">Windows</h1>
+
+
+<h1 id="toc_5">Normal mode</h1>
+ 
+<ul>
+<li>
+<code>[count]@:</code> : re-exec last command
+
+<li>
+<code>[count]@=</code> : do a quick macro (will give 'sequence')
+
+<li>
+<code>[count]@.</code> : re-insert last inserted text
+
+</ul>
+ 
+
+
+<h2 id="toc_5.1">Delete</h2>
+<ul>
+<li>
+<code>X</code>  : remove one character before the cursor, stay in Normal mode
+
+<li>
+<code>cc</code> : <strong>with [count]</strong> clear line then switch to Insert mode
+
+<li>
+<code>S</code>  : same as <code>cc</code>
+
+</ul>
+
+<h2 id="toc_5.2">Motion</h2>
+<ul>
+<li>
+<code>g_</code>         : last character in line, before the linebreak
+
+<li>
+<code>gv</code>       : re-visual select last selection area
+
+<li>
+`<code>[ and</code>`<code>]</code> : start and end of just yanked text
+
+<li>
+`<code>&lt; and</code>`<code>&gt;</code> : start and end of visual selected text
+
+</ul>
+
+
+<h2 id="toc_5.3">Format</h2>
+
+<ul>
+<li>
+gq with 77&lt;c-w&gt;v : gq re-format text with window view. recreate a window to make the format precise.
+
+</ul>
+
+
+
+<h1 id="toc_6">Insert mode</h1>
+
+<ul>
+<li>
+<code>&lt;C-W&gt;</code>          : remove the word before cursor
+
+<li>
+<code>&lt;C-U&gt;</code>          : remove the word before cursor till line beginning
+
+<li>
+<code>&lt;C-G&gt;u</code>         : break undo sequence, start new change
+
+<li>
+<code>&lt;C-\&gt;&lt;C-O&gt;</code>     : same as CTRL-O, but don't move cursor
+
+<li>
+<code>&lt;C-R&gt;&lt;C-R&gt; reg</code> : insert reg content <strong>literally</strong>
+
+<li>
+<code>&lt;C-@&gt;</code>          : insert pre-inserted text
+
+<li>
+<code>&lt;C-A&gt;</code>          : insert pre-inserted text
+
+</ul>
+
+<h1 id="toc_7">Command mode</h1>
+<ul>
+<li>
+<code>&lt;C-F&gt;</code> : enter cedit mode, edit cmd with Vim. :h cedit
+
+<li>
+<code>&lt;C-R&gt;&lt;C-W&gt;</code> : insert the word under cursor. or type <code>&lt;cword&gt;</code> or <code>&lt;cWORD&gt;</code>
+
+</ul>
+
+<h2 id="toc_7.1">Commands</h2>
+<p>
+-<code> :scriptnames</code> : show loaded plugin
+-<code> :g/foo/y A</code>   : copy all matched line to "a"
+</p>
+
+<h2 id="toc_7.2">Execute and normal!</h2>
+<ul>
+<li>
+<code>normal</code> cannot contain special keys e.g. <code>&lt;cr&gt;, &lt;esc&gt;</code>
+
+<li>
+<code>:execute "normal! mqA;\&lt;esc&gt;</code>`<code>q"</code> this works. (add ";" to the end of line)
+
+</ul>
+
+<h2 id="toc_7.3">useful atoms for matching</h2>
+
+
+<h1 id="toc_8">Search and Regex</h1>
+<h2 id="toc_8.1">Search</h2>
+
+<ul>
+<li>
+<code>/foo/+3</code> : find "foo", move cursor 3 lines down
+
+<li>
+<code>/foo/e</code> : cursor set to the end of match
+
+<li>
+<code>/foo/s</code> : cursor set to the start of match
+
+<li>
+<code>3/foo/e+1</code> : find the 3rd "foo", cursor set to the end of match +1 
+
+<li>
+<code>/.*foo\&amp;.*bar</code> : search "foo" AND "bar" <strong>In any ORDER</strong>
+
+</ul>
+
+<h2 id="toc_8.2">Patterns</h2>
+<h3 id="toc_8.2.1">Visual area/block</h3>
+<p>
+<code>:h \%V</code>
+could be used for <code>:s</code> for example, <strong>only</strong> replace pattern in visual selected area.
+for example:
+<code>:s /\%Vfoo\%V/bar/g</code>
+</p>
+
+<h3 id="toc_8.2.2">lines</h3>
+
+<ul>
+<li>
+<code>\%23l</code>  :  Matches in a specific line.
+
+<li>
+<code>\%&lt;23l</code> :	Matches above a specific line (lower line number).
+
+<li>
+<code>\%&gt;23l</code> :	Matches below a specific line (higher line number).
+
+</ul>
+
+<h3 id="toc_8.2.3">columns</h3>
+<p>
+<code>\%23c</code>	 Matches in a specific column.
+<code>\%&lt;23c</code>	Matches before a specific column.
+<code>\%&gt;23c</code>	Matches after a specific column.
+</p>
+
+<h2 id="toc_8.3">Regex</h2>
+<h3 id="toc_8.3.1">character class</h3>
+<ul>
+<li>
+<code>\s</code> 	whitespace character: &lt;Space&gt; and &lt;Tab&gt;		<strong>/\s</strong>
+
+<li>
+<code>\S</code> 	non-whitespace character; opposite of \s	<strong>/\S</strong>
+
+<li>
+<code>\d</code> 	digit:				[0-9]		<strong>/\d</strong>
+
+<li>
+<code>\D</code> 	non-digit:			[^0-9]		<strong>/\D</strong>
+
+<li>
+<code>\x</code> 	hex digit:			[0-9A-Fa-f]	<strong>/\x</strong>
+
+<li>
+<code>\X</code> 	non-hex digit:			[^0-9A-Fa-f]	<strong>/\X</strong>
+
+<li>
+<code>\o</code> 	octal digit:			[0-7]		<strong>/\o</strong>
+
+<li>
+<code>\O</code> 	non-octal digit:		[^0-7]		<strong>/\O</strong>
+
+<li>
+<code>\w</code> 	word character:			[0-9A-Za-z_]	<strong>/\w</strong>
+
+<li>
+<code>\W</code> 	non-word character:		[^0-9A-Za-z_]	<strong>/\W</strong>
+
+<li>
+<code>\h</code> 	head of word character:		[A-Za-z_]	<strong>/\h</strong>
+
+<li>
+<code>\H</code> 	non-head of word character:	[^A-Za-z_]	<strong>/\H</strong>
+
+<li>
+<code>\a</code> 	alphabetic character:		[A-Za-z]	<strong>/\a</strong>
+
+<li>
+<code>\A</code> 	non-alphabetic character:	[^A-Za-z]	<strong>/\A</strong>
+
+<li>
+<code>\l</code> 	lowercase character:		[a-z]		<strong>/\l</strong>
+
+<li>
+<code>\L</code> 	non-lowercase character:	[^a-z]		<strong>/\L</strong>
+
+<li>
+<code>\u</code> 	uppercase character:		[A-Z]		<strong>/\u</strong>
+
+<li>
+<code>\U</code> 	non-uppercase character:	[^A-Z]		<strong>/\U</strong>
+
+</ul>
+
+<p>
+	NOTE: Using the atom is faster than the [] form.
+</p>
+
+<h3 id="toc_8.3.2">some special character class</h3>
+<p>
+useful for highlighting
+</p>
+
+<ul>
+<li>
+<code>\i</code>	identifier character (see 'isident' option)	<strong>/\i</strong>
+
+<li>
+<code>\I</code>	like "\i", but excluding digits			<strong>/\I</strong>
+
+<li>
+<code>\k</code>	keyword character (see 'iskeyword' option)	<strong>/\k</strong>
+
+<li>
+<code>\K</code>	like "\k", but excluding digits			<strong>/\K</strong>
+
+<li>
+<code>\f</code>	file name character (see 'isfname' option)	<strong>/\f</strong>
+
+<li>
+<code>\F</code>	like "\f", but excluding digits			<strong>/\F</strong>
+
+<li>
+<code>\p</code>	printable character (see 'isprint' option)	<strong>/\p</strong>
+
+<li>
+<code>\P</code>	like "\p", but excluding digits			*/\P
+
+</ul>
+<h3 id="toc_8.3.3">Ordinary atoms</h3>
+<ul>
+<li>
+<code>\_^ </code>	start of line, any position, <strong>zero-width</strong>
+<pre>
+		\_s*\_^foo	:white space and blank lines and then "foo" at start-of-line
+</pre>
+
+</ul>
+	
+<ul>
+<li>
+<code>\_$ </code>	end of line, any position, <strong>zero-width</strong>
+<pre>
+		foo\_$\_s*	:"foo" at end-of-line and following white space and blank lines
+</pre>
+
+</ul>
+
+<ul>
+<li>
+<code>\&lt; and \&gt;</code> 	begining/end of a word
+
+<li>
+<code>\%$</code>		end of file
+
+</ul>
+
+<ul>
+<li>
+<code>\%'m</code>	Matches with the position of mark m.
+
+<li>
+<code>\%&lt;'m</code>	Matches before the position of mark m.
+
+<li>
+<code>\%&gt;'m</code>	Matches after the position of mark m.
+
+</ul>
+<h3 id="toc_8.3.4">Other Patterns</h3>
+<h2 id="toc_8.4">Handle search result (by / or ?)</h2>
+
+<ul>
+<li>
+<code>/foo&lt;CR&gt;</code> : do the search
+
+<li>
+<code>v//e&lt;CR&gt;</code> : visual select the current match (cusor location)
+
+<li>
+<code>d//e&lt;CR&gt;</code> : delete the current match
+
+<li>
+<code>c//e&lt;CR&gt;</code> : change the current match
+
+<li>
+<code>//&lt;CR&gt;</code>   : move to  the beginning of next match
+
+</ul>
+
+		
+<h2 id="toc_8.5">Copy/Move lines</h2>
+
+<p>
+:copy or :t
+:move or :m
+</p>
+
+<p>
+some hints
+</p>
+<ul>
+<li>
+<code>&lt;C-O&gt;</code> : move cursor back to last location
+
+<li>
+<code>.</code>     : the current line
+
+<li>
+<code>:9y</code>   : yank 9th line
+
+</ul>
+
+<p>
+Examples 
+</p>
+    
+<ul>
+<li>
+<code> :9t.</code>   : copy 9th line and paste below current line
+
+<li>
+<code> :3,9t.</code> : copy from 3-9 lines and paste below current line
+
+<li>
+<code> :3t18</code>  : copy 3rd line, copy to 18th line
+
+<li>
+<code> :t34</code>   : copy current line to 34th line
+
+</ul>
+ 
+<p>
+replace <strong>t</strong> with <strong>m</strong> will do move
+</p>
+
+
+<h1 id="toc_9">script</h1>
+<h2 id="toc_9.1">get visual selection</h2>
+
+<ul>
+<li>
+if selection in oneline:
+	<code>:echo getline("'&lt;")[getpos("'&lt;")[2]-1:getpos("'&gt;")[2]]</code>
+
+</ul>
+ 
+<ul>
+<li>
+if multilines are selected
+
+</ul>
+    
+<pre class="brush: vim">
+	 function! s:get_visual_selection() 
+		let [lnum1, col1] = getpos("'&lt;")[1:2]
+		let [lnum2, col2] = getpos("'&gt;")[1:2]
+		let lines = getline(lnum1, lnum2)
+		let lines[-1] = lines[-1][: col2 - 2]
+		let lines[0] = lines[0][col1 - 1:]
+		return join(lines, "\n")
+	endfunction
+</pre>
+
+
+<p>
+or use a register:
+</p>
+
+<pre class="brush: vim">
+function! GetVisual()
+  try
+    let a_save = @a
+    normal! gv"ay
+    return @a
+  finally
+    let @a = a_save
+  endtry
+endfunction
+  
+</pre>
+
+<h1 id="toc_10">Misc Tips</h1>
+<h2 id="toc_10.1">Mapping</h2>
+<ul>
+<li>
+map dynamic single character
+<pre class="brush: vim">
+nnoremap &lt;expr&gt; go '/^' . nr2char(getchar()) . '&lt;CR&gt;'
+</pre>
+
+</ul>
+
+<h1 id="toc_11">About <code>!</code></h1>
+
+<ul>
+<li>
+<code>:join!</code>  : don't add space between joined lines
+
+<li>
+<code>:normal!</code>  : doesn't follow <a href="mapping.html">mapping</a>
+
+<li>
+<code>:Ack/vimgrep!</code> doesn't auto open the first item in quickfix
+
+</ul>
+
+
+<p>
+<a href="../index.html">&lt;&lt;Back</a>
+</p>
+
+</div>
+</div>
+<div id="footer">
+<a href="http://www.vim.org" target="_blank"><img border="0" src="../template/images/vimLogo.png" alt="Created with Vim" height="36" width="90"></a>
+</div>
+</body>
+</html>

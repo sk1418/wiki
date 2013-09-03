@@ -1,0 +1,416 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>clishortcuts</title>
+<link rel="stylesheet" type="text/css" href="../template/style/main.css" />
+<link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
+<script type="text/javascript" src="../template/js/jquery.js"></script>
+<!--For code highlighting-->
+<script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushVim.js"></script>
+<script type="text/javascript" src="../template/js/shBrushBash.js"></script>
+<script type="text/javascript" src="../template/js/shBrushCss.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJava.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPython.js"></script>
+<script type="text/javascript" src="../template/js/shBrushSql.js"></script>
+<script type="text/javascript" src="../template/js/shBrushXml.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		SyntaxHighlighter.all();
+		if (window.innerWidth >= 460) {
+		var toggler = $('<div class="toggler" title="Toggle Table Of Content">Table Of Content</div>');
+		toc = $('.toc');
+		toc.wrap('<div class="tocWrap">');
+
+		$('.tocWrap').prepend(toggler)
+		.delay(500)
+		.fadeTo(500, '0.7')
+		.hover(function() {
+			$(this).stop().fadeTo(300, '0.9');
+			}, function() {
+			$(this).stop().fadeTo(300, '0.7');
+			});
+
+		$('html').keypress(function(e) {
+			if (e.shiftKey && (e.charCode || e.keyCode) == '90') {
+			e.preventDefault();
+			$('div.tocWrap').toggle(200);
+			}
+			});
+
+		toggler.click(function() {
+				$('div.toc').slideToggle(300);
+				});
+		}
+
+		$("a,h1,h2,h3,h4,h5,h6").filter(function(index){
+			return $(this).text()=='!Important!';
+				}).addClass("importantMarker");
+
+		
+
+});
+
+
+
+</script>
+</head>
+<body >
+<header id="header">
+<div id="logo" style="font-size: 22pt;text-align:center;"><a href="#">Kent's Wiki</a></div>
+</header>
+<div id="wrap">
+<div id="content">
+
+<h2 id="toc_0.1">command line editing</h2>
+
+
+
+<table>
+<tr>
+<th>
+Ctrl key
+</th>
+<th>
+Description
+</th>
+<th>
+Vim
+</th>
+<th>
+Alt Key
+</th>
+<th>
+Description
+</th>
+<th>
+Vim
+</th>
+</tr>
+<tr>
+<td>
+<code>Ctrl-A</code>
+</td>
+<td>
+Move to BOL
+</td>
+<td>
+<code>^</code>
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-E</code>
+</td>
+<td>
+Move to EOL
+</td>
+<td>
+<code>$</code>
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-F</code>
+</td>
+<td>
+Move to one char Right
+</td>
+<td>
+<code>l</code>
+</td>
+<td>
+<code>Alt-F</code>
+</td>
+<td>
+Move to one word Right
+</td>
+<td>
+<code>w</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-B</code>
+</td>
+<td>
+Move to one char Left
+</td>
+<td>
+<code>h</code>
+</td>
+<td>
+<code>Alt-B</code>
+</td>
+<td>
+Move to one word Left
+</td>
+<td>
+<code>b</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-D</code>
+</td>
+<td>
+Del current char (DEL)
+</td>
+<td>
+<code>x</code>
+</td>
+<td>
+<code>Alt-D</code>
+</td>
+<td>
+Del from current char till word end
+</td>
+<td>
+<code>de</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-H</code>
+</td>
+<td>
+Backspace
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-U</code>
+</td>
+<td>
+Cut (In Buf) till BOL
+</td>
+<td>
+<code>d0</code>
+</td>
+<td>
+<code>Alt-U</code>
+</td>
+<td>
+Uppercase current word
+</td>
+<td>
+<code>veU</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-L</code>
+</td>
+<td>
+Clear
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+<code>Alt-L</code>
+</td>
+<td>
+Lowercase current word
+</td>
+<td>
+<code>veu</code>
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+<code>Alt-C</code>
+</td>
+<td>
+Uppercase current char, move to word end
+</td>
+<td>
+<code>vUe</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-K</code>
+</td>
+<td>
+Cut (In Buf) till EOL
+</td>
+<td>
+<code>D</code>
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-W</code>
+</td>
+<td>
+Cut (In Buf) till word beginning
+</td>
+<td>
+<code>db</code>
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-Y</code>
+</td>
+<td>
+Paste buffer value (by cut)
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-Shift-_</code>
+</td>
+<td>
+Undo last change
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+<code>Ctrl-T</code>
+</td>
+<td>
+Swap current and previous char
+</td>
+<td>
+<code>xp</code>
+</td>
+<td>
+<code>Alt-T</code>
+</td>
+<td>
+swap current and previous words
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+
+<ul>
+<li>
+[count] 
+
+</ul>
+<p>
+E.g. <code>Alt-3 Alt-B</code> go to 3 words backwards same as in vim <code>3b</code>
+</p>
+
+
+<p>
+<a href="../index.html">&lt;&lt;Back</a>
+</p>
+
+</div>
+</div>
+<div id="footer">
+<a href="http://www.vim.org" target="_blank"><img border="0" src="../template/images/vimLogo.png" alt="Created with Vim" height="36" width="90"></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>tools</title>
+<link rel="stylesheet" type="text/css" href="../template/style/main.css" />
+<link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
+<script type="text/javascript" src="../template/js/jquery.js"></script>
+<!--For code highlighting-->
+<script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushVim.js"></script>
+<script type="text/javascript" src="../template/js/shBrushBash.js"></script>
+<script type="text/javascript" src="../template/js/shBrushCss.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJava.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPython.js"></script>
+<script type="text/javascript" src="../template/js/shBrushSql.js"></script>
+<script type="text/javascript" src="../template/js/shBrushXml.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		SyntaxHighlighter.all();
+		if (window.innerWidth >= 460) {
+		var toggler = $('<div class="toggler" title="Toggle Table Of Content">Table Of Content</div>');
+		toc = $('.toc');
+		toc.wrap('<div class="tocWrap">');
+
+		$('.tocWrap').prepend(toggler)
+		.delay(500)
+		.fadeTo(500, '0.7')
+		.hover(function() {
+			$(this).stop().fadeTo(300, '0.9');
+			}, function() {
+			$(this).stop().fadeTo(300, '0.7');
+			});
+
+		$('html').keypress(function(e) {
+			if (e.shiftKey && (e.charCode || e.keyCode) == '90') {
+			e.preventDefault();
+			$('div.tocWrap').toggle(200);
+			}
+			});
+
+		toggler.click(function() {
+				$('div.toc').slideToggle(300);
+				});
+		}
+
+		$("a,h1,h2,h3,h4,h5,h6").filter(function(index){
+			return $(this).text()=='!Important!';
+				}).addClass("importantMarker");
+
+		
+
+});
+
+
+
+</script>
+</head>
+<body >
+<header id="header">
+<div id="logo" style="font-size: 22pt;text-align:center;"><a href="#">Kent's Wiki</a></div>
+</header>
+<div id="wrap">
+<div id="content">
+
+<h2 id="toc_0.1">tar</h2>
+
+<h3 id="toc_0.1.1">Copy Files and keep dir structure</h3>
+
+<p>
+Example: Back up all <code>*.pl</code> and <code>*.sh</code> files to a new directory with timestamp and keep the original directory structure.
+</p>
+
+<pre  class="brush: bash">
+ArchT60::/tmp
+kent$ tree /tmp/test                                                                                                           
+/tmp/test
+|-- a.txt
+|-- b.pl
+|-- c.pl
+`-- one
+    |-- one.pl
+    |-- one.txt
+    `-- two
+        |-- two.pl
+        `-- two.sh
+
+ArchT60::/tmp/bak
+kent$ tree /tmp/bak                                                                                                            
+/tmp/bak
+0 directories, 0 files 
+
+
+ArchT60::/tmp
+kent$ mkdir -p /tmp/bak/bak$(date +%Y%m%d) &amp;&amp; find /tmp/test -regex ".*.[pl|sh]" -print | xargs tar -cf -  | tar -xf - -C /tmp/bak/bak$(date +%Y%m%d)
+
+ArchT60::/tmp
+kent$ tree /tmp/bak                                                                                                            
+/tmp/bak
+`-- bak20110306
+    `-- tmp
+        `-- test
+            |-- b.pl
+            |-- c.pl
+            `-- one
+                |-- one.pl
+                `-- two
+                    |-- two.pl
+                    `-- two.sh
+</pre>
+  
+<h3 id="toc_0.1.2">Transfer files/dirs to remote (ssh)</h3>
+
+<p>
+**<code>-</code>** is the key. (standard input)
+</p>
+
+<pre  class="brush: bash">
+tar -cf - /home/kent/Desktop/tmp/myFile |ssh user@host "cd someDir; tar -xf - "
+</pre>
+
+<h2 id="toc_0.2">cp &amp; rm</h2>
+
+<ul>
+<li>
+backup copy
+<pre  class="brush: bash">
+cp test{,_`date +%F`}.log
+
+test_2011-12-10.log copied.
+
+cp test.log{,.`date +%F`}
+
+test.log.2011-12-12 copied
+</pre>
+
+</ul>
+  
+<ul>
+<li>
+exclude rm
+
+</ul>
+<p>
+<code> $ rm !(*.foo|*.bar|*.baz) </code>
+</p>
+
+<h2 id="toc_0.3">tee</h2>
+
+<pre  class="brush: bash">
+kent$ cat t.txt                                                                 
+this is the first line
+now comes the 2nd line
+
+kent$ cat t.txt|tee &gt;(sed -n 1p &gt;a.txt) &gt;(sed -n 2p &gt;b.txt)                    
+this is the first line
+now comes the 2nd line
+
+kent$ cat a.txt                                                               
+this is the first line
+ArchT60::/tmp
+kent$ cat b.txt                                                              
+now comes the 2nd line
+</pre>
+
+<h2 id="toc_0.4">sort</h2>
+
+<ul>
+<li>
+<code>-m</code>  merge sorted file
+
+<ul>
+<li>
+sort reads a line from each file.
+
+<li>
+It orders these lines and selects the one which should come first. This line gets sent to the output, and a new line is read from the file which contained this line.
+
+<li>
+Repeat step 2 until there are no more lines in any file.
+	-At this point, the output should be a perfectly sorted file.
+
+</ul>
+</ul>
+
+
+<ul>
+<li>
+<code>-M</code> sort month like <code>JAN, DEC</code>
+
+</ul>
+
+<p>
+<a href="../index.html">&lt;&lt;Back</a>
+</p>
+
+</div>
+</div>
+<div id="footer">
+<a href="http://www.vim.org" target="_blank"><img border="0" src="../template/images/vimLogo.png" alt="Created with Vim" height="36" width="90"></a>
+</div>
+</body>
+</html>

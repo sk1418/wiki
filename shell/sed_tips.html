@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>sed_tips</title>
+<link rel="stylesheet" type="text/css" href="../template/style/main.css" />
+<link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
+<script type="text/javascript" src="../template/js/jquery.js"></script>
+<!--For code highlighting-->
+<script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushVim.js"></script>
+<script type="text/javascript" src="../template/js/shBrushBash.js"></script>
+<script type="text/javascript" src="../template/js/shBrushCss.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJava.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPython.js"></script>
+<script type="text/javascript" src="../template/js/shBrushSql.js"></script>
+<script type="text/javascript" src="../template/js/shBrushXml.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		SyntaxHighlighter.all();
+		if (window.innerWidth >= 460) {
+		var toggler = $('<div class="toggler" title="Toggle Table Of Content">Table Of Content</div>');
+		toc = $('.toc');
+		toc.wrap('<div class="tocWrap">');
+
+		$('.tocWrap').prepend(toggler)
+		.delay(500)
+		.fadeTo(500, '0.7')
+		.hover(function() {
+			$(this).stop().fadeTo(300, '0.9');
+			}, function() {
+			$(this).stop().fadeTo(300, '0.7');
+			});
+
+		$('html').keypress(function(e) {
+			if (e.shiftKey && (e.charCode || e.keyCode) == '90') {
+			e.preventDefault();
+			$('div.tocWrap').toggle(200);
+			}
+			});
+
+		toggler.click(function() {
+				$('div.toc').slideToggle(300);
+				});
+		}
+
+		$("a,h1,h2,h3,h4,h5,h6").filter(function(index){
+			return $(this).text()=='!Important!';
+				}).addClass("importantMarker");
+
+		
+
+});
+
+
+
+</script>
+</head>
+<body >
+<header id="header">
+<div id="logo" style="font-size: 22pt;text-align:center;"><a href="#">Kent's Wiki</a></div>
+</header>
+<div id="wrap">
+<div id="content">
+
+<h1 id="toc_1">awk</h1>
+
+<h2 id="toc_1.1">Misc Tricks</h2>
+<ul>
+<li>
+add thousand separator for numbers (watch the quotes!): <code>printf("%'"'"'\d",$i)</code> 
+
+<li>
+Remove ending columns : <code>NF=NF-x</code>
+
+</ul>
+
+<h1 id="toc_2">GNU Sed</h1>
+
+<h2 id="toc_2.1">"e" flag s/../../ge</h2>
+
+<h3 id="toc_2.1.1">Example One</h3>
+<pre>
+  
+a  yao.com sina.com
+b  kongu.com
+c  polm.com unee.net 21cn.com iop.com
+d  kinge.net
+
+如上的文本内容，我想最终结果如下
+
+a  yao.com 
+a  sina.com
+b  kongu.com
+c  polm.com 
+c  unee.net 
+c  21cn.com 
+c   iop.com
+d  kinge.net
+</pre>
+<p>
+假设保存原始文件为<code>sample.txt</code>
+</p>
+
+<pre  class="brush: bash">
+kent$ sed -r 's:(^[a-z]+) (.*):echo "\2"\|sed "s# #\\n\1 #g"\|sed "/^$/d":ge' sample.txt  
+</pre>
+
+<p>
+即可.
+解释：
+</p>
+
+<p>
+<code>s/pattern/ shell command pipe command/e</code>
+</p>
+
+<p>
+可以通过s的pattern部分获得要处理的信息，特别是通过分组的正则表达式。然后用已经匹配的信息作为参数，利用shell或者外部工具再处理，生成要替换的字符串完成替换。
+</p>
+
+
+<p>
+要注意的地方：
+</p>
+
+<p>
+-要用的外部命令或工具中不能含有最外面sed s的分隔符号，所以，最好sed用一个比较特殊的，比如:, # 或者其它。
+-如果有管道，要转义 \|
+</p>
+
+<p>
+具体命令解释：
+<code>sed -r 's:(^[a-z]+) (.*):echo "\2"\|sed "s# #\\n\1 #g"\|sed "/^$/d":ge' sample.txt</code>  
+</p>
+
+<ul>
+<li>
+最外面是一个 sed -r 's:(^[a-z]+) (.*) : :ge' 的结构，冒号是分隔符。pattern是两个组。 （开头的字母）一个空格（剩下所有）。 其中(\2)开头是一个空格。 因为key和value之间是2个空格
+
+<li>
+然后把剩下所有(\2)通过echo输出给另一个sed, sed "s# # \\n\1 #g" 把所有空格替换成 回车＋\1+空格 分隔符是 #
+
+<li>
+因为原始文件每行后有回车，所以以上替换后有空行，最后把第2步的结果通过管道再传给一个sed来删除空行
+
+<li>
+最后完成第一步的替换
+
+<li>
+
+
+</ul>
+
+<p>
+Example Two
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/7812497/add-filename-to-beginning-of-file-using-find-and-sed">http://stackoverflow.com/questions/7812497/add-filename-to-beginning-of-file-using-find-and-sed</a>
+</p>
+
+<p>
+using the following I add the file name to the front of each line and send the output to a single file.
+</p>
+
+<p>
+<code> ls | while read file; do sed -e "s/^/\(file/g" \)file &gt; out; done </code>
+</p>
+
+<p>
+I want to perform the same sed replacement but using a find and exec or xargs command -
+</p>
+
+<p>
+<code> find . -type f -exec sed "s/^/{}/g" {} &gt; out + </code>
+</p>
+
+<p>
+but I get an error -
+</p>
+
+<p>
+<code>find: Only one instance of {} is supported with -exec ... +</code>
+</p>
+
+<p>
+Input files are like this -
+</p>
+<pre>
+fileA.txt
+
+A1
+A2
+fileB.txt
+
+B1
+B2
+desired output
+
+fileA.txt A1
+fileA.txt A2
+fileB.txt B1
+fileB.txt B2
+</pre>
+  
+<p>
+I know how to do this with awk, but I'd like to do it with sed, find and exec or xargs.
+</p>
+
+<p>
+<strong>Solution</strong>
+</p>
+
+<pre  class="brush: bash">
+find . -type f | xargs -i echo {}|sed -r 's#(.\/)(.*)#cat &amp;\|sed  "s:^:file \2 :g"ge'
+</pre>
+
+<p>
+test
+</p>
+
+<pre  class="brush: bash">
+kent$  head *.txt
+==&gt; a.txt &lt;==
+A1
+A2
+
+==&gt; b.txt &lt;==
+B1
+B2
+
+kent$  find . -type f | xargs -i echo {}|sed -r 's#(.\/)(.*)#cat &amp;\|sed  "s:^:file \2 :g"#ge'
+file b.txt B1
+file b.txt B2
+file a.txt A1
+file a.txt A2
+</pre>
+  
+<p>
+Short explanation
+</p>
+
+<ul>
+<li>
+<code>find ....|xargs -i echo {} </code>nothing to explain, just print the filename per line (with leading "./")
+
+</ul>
+
+<ul>
+<li>
+then pass the filename to a sed line like <code>sed -r 's#(.\/)(.*)# MAGIC #ge'</code>
+
+</ul>
+
+<ul>
+<li>
+remember that in the above line, we have two groups <code>\1: "./" and \2 "a.txt"(filename)</code>
+
+</ul>
+
+<ul>
+<li>
+since we have e at the end of sed line, the MAGIC part would be executed as shell command.(GNU sed needed)
+
+</ul>
+
+<ul>
+<li>
+MAGIC: <code>cat &amp;\|sed "s:^:file \2 :g cat &amp;</code> is just output the file content, and pipe to another sed. do the replace <code>(s:..:..:g)</code>
+
+</ul>
+
+<p>
+finally, the execution result of MAGIC would be the Replacement of the outer sed.
+</p>
+
+<h3 id="toc_2.1.2">Example Three</h3>
+
+<p>
+<a href="http://stackoverflow.com/questions/14102504/replace-strings-with-evaluated-string-based-on-matched-group-elegant-way-not-u">http://stackoverflow.com/questions/14102504/replace-strings-with-evaluated-string-based-on-matched-group-elegant-way-not-u</a>
+</p>
+
+<p>
+I want to replace the timestamps (timestamp + duration) in this file
+</p>
+
+<pre>
+1357222500 3600 ...
+Maybe intermediate strings...
+1357226100 3600 ...
+Maybe intermediate strings...
+...
+
+to
+
+Do 3. Jan 15:15:00 CET 2013 - Do 3. Jan 16:15:00 CET 2013
+Maybe intermediate strings...
+Do 3. Jan 16:15:00 CET 2013 - Do 3. Jan 17:15:00 CET 2013
+Maybe intermediate strings...
+...
+
+</pre>
+  
+<p>
+Solution:
+</p>
+
+<p>
+<code> sed -r 's#^([0-9]{1,10}) ([0-9]{1,4})(.*\()#echo \)(date --date=@\1 )" - "\((date --date=@\)((\1+\2)))#ge'  file </code>
+</p>
+
+  
+
+<p>
+<a href="../index.html">&lt;&lt;Back</a>
+</p>
+
+</div>
+</div>
+<div id="footer">
+<a href="http://www.vim.org" target="_blank"><img border="0" src="../template/images/vimLogo.png" alt="Created with Vim" height="36" width="90"></a>
+</div>
+</body>
+</html>
