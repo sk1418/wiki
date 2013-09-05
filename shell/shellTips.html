@@ -77,6 +77,25 @@ tput el   #clear till the end of line
 #man terminfo would list all capabilities
 </pre>
 
+<p>
+Example (<a href="http://stackoverflow.com/questions/18640002/is-it-possible-to-have-bash-script-output-multiple-lines-over-the-same-lines-wit)">http://stackoverflow.com/questions/18640002/is-it-possible-to-have-bash-script-output-multiple-lines-over-the-same-lines-wit)</a>
+</p>
+<pre class="brush: bash">
+while true; do    
+    date
+    sensors | grep "temp1"
+    sensors | grep "Core"
+    acpi
+
+    sleep 1
+
+    for i in {1..4}; do # clear four lines above
+        tput cuu1 # up by one line
+        tput el # clear that line
+    done
+done
+</pre>
+
 
 
 <p>
