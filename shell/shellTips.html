@@ -66,54 +66,18 @@ $(document).ready(function() {
 <div id="wrap">
 <div id="content">
 
-
-
-<h1 id="toc_1">Disable the Ctrl-S in terminal</h1>
-
-<p>
-The Ctrl+S and Ctrl+Q is actually the XON/XOFF protocol. It lives with Unix/linux for long time.
-</p>
-
-<p>
-You can disable it by:
-</p>
-<pre class="brush: bash">
-stty -ixon
-</pre>
-<p>
-or
-</p>
+<h1 id="toc_1">output overwrites same screen area</h1>
 
 <pre class="brush: bash">
-stty stop undef
+
+tput cuu1 #move cursor oneline up
+tput el   #clear till the end of line
+
+#tput reset/set terminal,shell
+#man terminfo would list all capabilities
 </pre>
-  
-<p>
-We could check by <code>stty -a</code> before and after the change. 
-</p>
 
-<p>
-easier is, try the commands above, and press Ctrl-S to see if it worked.
-</p>
 
-<h1 id="toc_2">reset terminal/tty</h1>
-
-<pre class="brush: bash">
-stty sane
-</pre>
-  
-<p>
-to reset the terminal. 
-</p>
-
-<p>
-For example. after <code>find...|xargs vim</code>
-</p>
-
-<h1 id="toc_3">misc</h1>
-<p>
-<code>\x1b</code> = ESC in shell script
-</p>
 
 <p>
 <a href="../index.html">&lt;&lt;Back</a>
