@@ -64,7 +64,7 @@ ul,li {
 input,textarea,button {outline:none;}
 pre{
 	font-family: "Monaco", "Arial", "DejaVu Sans", "Bitstream Vera Sans", "Lucida Sans", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-	font-size: 11pt;
+	font-size: 10pt;
 }
 code {
     font-family: "Monaco","Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
@@ -233,6 +233,7 @@ blockquote p:last-child {margin-bottom:0;}
 
 .importantMarker {
     font-weight: bold;
+	font:bold;
 	background-color:#d75f5f;
 	color:#000000
 }
