@@ -9,6 +9,7 @@
 <script type="text/javascript" src="../template/js/jquery.js"></script>
 <!--For code highlighting-->
 <script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPlain.js"></script>
 <script type="text/javascript" src="../template/js/shBrushVim.js"></script>
 <script type="text/javascript" src="../template/js/shBrushBash.js"></script>
 <script type="text/javascript" src="../template/js/shBrushCss.js"></script>
@@ -145,7 +146,7 @@ The mistake they make is in the definition of
 <p>
 Figure 7: (Java) Defining a Dog pointer
 </p>
-<pre>
+<pre class="brush: text">
 Dog d;
 </pre>
 <p>
@@ -261,7 +262,7 @@ is exactly like C++'s
 <p>
 Figure 12: (C++) Following a pointer and calling a method
 </p>
-<pre class="brush: c++>
+<pre class="brush: java">
 d-&gt;setName("Fifi");
 </pre>
 <p>
@@ -276,7 +277,7 @@ Keep in mind, when you call
 Figure 13: (Java) Even more still passing a pointer by value
 </p>
 
-<pre class="brush: java>
+<pre class="brush: java">
 foo(d);
 </pre>
 <p>
@@ -305,7 +306,7 @@ The key to understanding this is that something like
 Figure 14: (Java) Not a Dog; a pointer to a Dog
 </p>
 
-<pre class="brush: java>
+<pre class="brush: java">
 Dog myDog;
 </pre>
   
@@ -320,12 +321,12 @@ What that means, is when you have
 <p>
 Figure 15: (Java) Passing the Dog's location
 </p>
-<pre class="brush: java>
+<pre class="brush: java">
 Dog myDog = new Dog("Rover");
 foo(myDog);
 </pre>
 <p>
-you're essentially passing the address of the created Dog object to the foo method. (I say essentially b/c java pointers aren't direct addresses, but it's easiest to think of them that way)
+you're essentially passing the address of the created Dog object to the foo method. (I <a href="say.html">say</a> essentially b/c java pointers aren't direct addresses, but it's easiest to think of them that way)
 </p>
 
 <p>
@@ -339,7 +340,7 @@ If the Method were defined as
 <p>
 Figure 16: (Java) Looking at the called method in detail
 </p>
-<pre class="brush: java>
+<pre class="brush: java">
 public void foo(Dog someDog) {
     someDog.setName("Max");     // AAA
     someDog = new Dog("Fifi");  // BBB
@@ -354,7 +355,7 @@ Let's look at what's happening.
 <p>
 the parameter someDog is set to the value 42
 </p>
-<pre>
+<pre class="brush: text">
 at line "AAA"
 someDog is followed to the Dog it points to (the Dog object at address 42) that Dog (the one at address 42) is asked to change his name to Max
 at line "BBB"

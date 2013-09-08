@@ -9,6 +9,7 @@
 <script type="text/javascript" src="../template/js/jquery.js"></script>
 <!--For code highlighting-->
 <script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPlain.js"></script>
 <script type="text/javascript" src="../template/js/shBrushVim.js"></script>
 <script type="text/javascript" src="../template/js/shBrushBash.js"></script>
 <script type="text/javascript" src="../template/js/shBrushCss.js"></script>
@@ -117,7 +118,7 @@ Full help <strong>:h xml-plugin</strong>
 
 </ul>
  
-<pre>
+<pre class="brush: plain">
 
    &lt;a(I)&gt;
 		&lt;b&gt;foo&lt;/b&gt;
@@ -129,7 +130,7 @@ Full help <strong>:h xml-plugin</strong>
 to
 </p>
 
-<pre>
+<pre class="brush: text">
    &lt;a&gt;
 		&lt;new&gt;
     		&lt;b&gt;foo&lt;/b&gt;
@@ -141,7 +142,7 @@ to
 <ul>
 <li>
 &lt;leader&gt;O : (cusor on tag) insert a tag outside the current one e.g.
-<pre>
+<pre class="brush: text">
    &lt;a(I)&gt;
 		&lt;b&gt;foo&lt;/b&gt;
 	&lt;/a&gt;
@@ -154,7 +155,7 @@ to
 to
 </p>
 
-<pre>
+<pre class="brush: text">
   
    &lt;new&gt;
 		&lt;a&gt;
@@ -173,7 +174,7 @@ Full help <strong>:h autoclose.txt</strong>
 <ul>
 <li>
 customize  open/close char:
-<pre>
+<pre class="brush: text">
  let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"', "'": "'"} 
 </pre>
 
@@ -250,7 +251,7 @@ visual block then &lt;leader&gt;e : draw eclipse
 Full help <strong>:h surround</strong>
 </p>
 
-<pre>
+<pre class="brush: text">
   
   Old text                  Command     New text ~
   "Hello *world!"           ds"         Hello world!

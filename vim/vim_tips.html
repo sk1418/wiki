@@ -9,6 +9,7 @@
 <script type="text/javascript" src="../template/js/jquery.js"></script>
 <!--For code highlighting-->
 <script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPlain.js"></script>
 <script type="text/javascript" src="../template/js/shBrushVim.js"></script>
 <script type="text/javascript" src="../template/js/shBrushBash.js"></script>
 <script type="text/javascript" src="../template/js/shBrushCss.js"></script>
@@ -472,7 +473,7 @@ useful for highlighting
 <ul>
 <li>
 <code>\_^ </code>	start of line, any position, <strong>zero-width</strong>
-<pre>
+<pre class="brush: text">
 		\_s*\_^foo	:white space and blank lines and then "foo" at start-of-line
 </pre>
 
@@ -481,7 +482,7 @@ useful for highlighting
 <ul>
 <li>
 <code>\_$ </code>	end of line, any position, <strong>zero-width</strong>
-<pre>
+<pre class="brush: text">
 		foo\_$\_s*	:"foo" at end-of-line and following white space and blank lines
 </pre>
 

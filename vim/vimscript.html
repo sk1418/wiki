@@ -9,6 +9,7 @@
 <script type="text/javascript" src="../template/js/jquery.js"></script>
 <!--For code highlighting-->
 <script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPlain.js"></script>
 <script type="text/javascript" src="../template/js/shBrushVim.js"></script>
 <script type="text/javascript" src="../template/js/shBrushBash.js"></script>
 <script type="text/javascript" src="../template/js/shBrushCss.js"></script>
@@ -68,12 +69,20 @@ $(document).ready(function() {
 
 <h1 id="toc_1">Variable</h1>
 <h2 id="toc_1.1">Condition</h2>
-<p>
-"<code>foo"</code>  : False
+<ul>
+<li>
+<code>"foo"</code>  : False
+
+<li>
 <code>1</code>      : True
+
+<li>
 <code>0</code>      : False
+
+<li>
 <code>"1foo"</code> : True
-</p>
+
+</ul>
 
 <p>
 <code>==#</code> case sensitive
@@ -93,7 +102,7 @@ $(document).ready(function() {
 <h1 id="toc_3">Function</h1>
 
 <h1 id="toc_4">Arguments</h1>
-<pre>
+<pre class="brush: vim">
 function Varg(...)
   echom a:0
   echom a:1
@@ -106,7 +115,7 @@ endfunction
 a:0   : the length of variable-length
 
 <li>
-a:1   : the 1st <a href="arg.html">arg</a>
+a:1   : the 1st arg
 
 <li>
 a:000 : the list of all args

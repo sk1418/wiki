@@ -9,6 +9,7 @@
 <script type="text/javascript" src="../template/js/jquery.js"></script>
 <!--For code highlighting-->
 <script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPlain.js"></script>
 <script type="text/javascript" src="../template/js/shBrushVim.js"></script>
 <script type="text/javascript" src="../template/js/shBrushBash.js"></script>
 <script type="text/javascript" src="../template/js/shBrushCss.js"></script>
@@ -93,7 +94,7 @@ reference static field only initialize the class which declared this field. e.g.
 
 <li>
 <code>final</code> field will be optimized by compiler as constant, reference final fields won't init the class.
-<pre>
+<pre class="brush: text">
 	6. Otherwise, record the fact that initialization of the Class object for C is in progress by the current thread, and release LC.
 	Then, initialize the final class variables and fields of interfaces whose values are compile-time constant expressions
 </pre>

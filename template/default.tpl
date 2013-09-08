@@ -9,6 +9,7 @@
 <script type="text/javascript" src="%root_path%template/js/jquery.js"></script>
 <!--For code highlighting-->
 <script type="text/javascript" src="%root_path%template/js/shCore.js"></script>
+<script type="text/javascript" src="%root_path%template/js/shBrushPlain.js"></script>
 <script type="text/javascript" src="%root_path%template/js/shBrushVim.js"></script>
 <script type="text/javascript" src="%root_path%template/js/shBrushBash.js"></script>
 <script type="text/javascript" src="%root_path%template/js/shBrushCss.js"></script>
