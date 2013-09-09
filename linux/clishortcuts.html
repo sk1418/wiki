@@ -67,15 +67,18 @@ $(document).ready(function() {
 <div id="wrap">
 <div id="content">
 
-<h1 id="toc_1">Todo</h1>
+<div class="toc">
 <ul>
-<li>
-<code>alt + '</code>
-
+<li><a href="#toc_1">command line editing</a>
+<li><a href="#toc_2">Zsh config for command line editing</a>
+<ul>
+<li><a href="#toc_2.1">Ctrl-X Ctrl-E</a>
+<li><a href="#toc_2.2">find next/pre char</a>
+<li><a href="#toc_2.3">Other Zsh keybinds</a>
 </ul>
-
-<h1 id="toc_2">command line editing</h1>
-
+</ul>
+</div>
+<h1 id="toc_1">command line editing</h1>
 
 
 <table>
@@ -311,10 +314,10 @@ Paste buffer value (by cut)
 </tr>
 <tr>
 <td>
-<code>Ctrl-Shift-_</code>
+<code>Ctrl-_</code>
 </td>
 <td>
-Undo last change
+Undo last change <code>C-_</code> works too
 </td>
 <td>
 &nbsp;
@@ -345,25 +348,20 @@ swap current and previous words
 </tr>
 <tr>
 <td>
-&nbsp;
+<code>C-@</code> and <code>C-x C-x</code>
+</td>
+<td>
+C-@ set marker and C-x C-x to swap current pos with the mark
 </td>
 <td>
 &nbsp;
 </td>
-<td>
-&nbsp;
-</td>
-<td>
-&nbsp;
-</td>
-<td>
-&nbsp;
-</td>
-<td>
+<td colspan="3">
 &nbsp;
 </td>
 </tr>
 </table>
+
 
 <ul>
 <li>
@@ -372,6 +370,64 @@ swap current and previous words
 </ul>
 <p>
 E.g. <code>Alt-3 Alt-B</code> go to 3 words backwards same as in vim <code>3b</code>
+</p>
+
+<p>
+Except for the above table, there are still other useful short-cuts:
+</p>
+
+<p>
+E.g
+</p>
+<ul>
+<li>
+<code>C-R</code> to search history backwords
+
+<li>
+<code>C-S</code> search history forwards
+
+<li>
+<code>C-x C-e</code> to edit current command line in <code>$EDITOR</code>
+
+<li>
+<code>A-.</code> to insert the last argument of last command
+
+<li>
+<code>C-]</code> search next char, <code>C-A-]</code> search previous char (I remapped it in ZSH, see Zsh section)
+
+</ul>
+
+<h1 id="toc_2">Zsh config for command line editing</h1>
+
+<h2 id="toc_2.1">Ctrl-X Ctrl-E</h2>
+<p>
+<code>ctrl-x ctrl-e</code> open <code>$EDITOR</code> to edit the current commandline. In Zsh:
+</p>
+
+<pre class="brush: bash">
+#edit command in vi ctrl-x ctrl-e
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^X^e' edit-command-line
+</pre>
+
+<h2 id="toc_2.2">find next/pre char</h2>
+<p>
+similar as <code>f/F</code> in vim:
+</p>
+
+<pre class="brush: bash">
+#ctrl-] to search next char in command line same as 'f' in vim
+bindkey '^]' vi-find-next-char
+#alt-] to search previous char in command line same as 'F' in vim
+bindkey '\e]' vi-find-prev-char
+</pre>
+
+<h2 id="toc_2.3">Other Zsh keybinds</h2>
+
+<p>
+<code>Alt-'</code> : single quote the whole line
+<code>Alt-?</code> : do "which-command" on the current typed command
 </p>
 
 
