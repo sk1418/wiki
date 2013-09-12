@@ -69,19 +69,29 @@ $(document).ready(function() {
 
 <div class="toc">
 <ul>
-<li><a href="#toc_1">tar</a>
+<li><a href="#toc_1">rm</a>
+<li><a href="#toc_2">tar</a>
 <ul>
-<li><a href="#toc_1.1">Copy Files and keep dir structure</a>
-<li><a href="#toc_1.2">Transfer files/dirs to remote (ssh)</a>
+<li><a href="#toc_2.1">Copy Files and keep dir structure</a>
+<li><a href="#toc_2.2">Transfer files/dirs to remote (ssh)</a>
 </ul>
-<li><a href="#toc_2">cp &amp; rm</a>
-<li><a href="#toc_3">tee</a>
-<li><a href="#toc_4">sort</a>
+<li><a href="#toc_3">cp &amp; rm</a>
+<li><a href="#toc_4">tee</a>
+<li><a href="#toc_5">sort</a>
 </ul>
 </div>
-<h1 id="toc_1">tar</h1>
 
-<h2 id="toc_1.1">Copy Files and keep dir structure</h2>
+<h1 id="toc_1">rm</h1>
+<p>
+rm ecluding files:
+</p>
+<pre  class="brush: bash">
+$rm !(*.foo|*.bar|*.baz)
+</pre>
+
+<h1 id="toc_2">tar</h1>
+
+<h2 id="toc_2.1">Copy Files and keep dir structure</h2>
 
 <p>
 Example: Back up all <code>*.pl</code> and <code>*.sh</code> files to a new directory with timestamp and keep the original directory structure.
@@ -125,7 +135,7 @@ kent$ tree /tmp/bak
                     `-- two.sh
 </pre>
   
-<h2 id="toc_1.2">Transfer files/dirs to remote (ssh)</h2>
+<h2 id="toc_2.2">Transfer files/dirs to remote (ssh)</h2>
 
 <p>
 **<code>-</code>** is the key. (standard input)
@@ -135,7 +145,7 @@ kent$ tree /tmp/bak
 tar -cf - /home/kent/Desktop/tmp/myFile |ssh user@host "cd someDir; tar -xf - "
 </pre>
 
-<h1 id="toc_2">cp &amp; rm</h1>
+<h1 id="toc_3">cp &amp; rm</h1>
 
 <ul>
 <li>
@@ -154,14 +164,25 @@ test.log.2011-12-12 copied
   
 <ul>
 <li>
-exclude rm
+rm excluding files
 
 </ul>
+ 
+<pre  class="brush: bash">
+#bash:
+shopt -s extglob
+$ rm !(*.foo|*.bar|*.baz) `
+</pre>
 <p>
-<code> $ rm !(*.foo|*.bar|*.baz) </code>
+Zsh also has its own extended globs:
 </p>
+<pre  class="brush: bash">
+setopt extended_glob
+rm -rf ^var_(opt|log)
 
-<h1 id="toc_3">tee</h1>
+</pre>
+
+<h1 id="toc_4">tee</h1>
 
 <pre  class="brush: bash">
 kent$ cat t.txt                                                                 
@@ -179,7 +200,7 @@ kent$ cat b.txt
 now comes the 2nd line
 </pre>
 
-<h1 id="toc_4">sort</h1>
+<h1 id="toc_5">sort</h1>
 
 <ul>
 <li>
