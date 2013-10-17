@@ -150,6 +150,33 @@ How to search for a URL without backslashing
 use backwards search <code>?</code> skip the escaping, isn't it clever?!
 <code>?http://www.vim.org/</code>       
 </p>
+<ul>
+<li>
+amazing words split trick from vimgolf (<a href="http://vimgolf.com/challenges/525ee6a5de92470002000039)">http://vimgolf.com/challenges/525ee6a5de92470002000039)</a>
+<pre>
+UseVim'sspellcheckfeaturetosplitthissentenceintowordsusingspaces.
+ Vim: set spell:
+</pre>
+
+</ul>
+<p>
+change above into:
+</p>
+
+<pre>
+Use Vim's spell check feature to split this sentence into words using spaces.
+ Vim: set spell:
+</pre>
+
+<ul>
+<li>
+my solution (30)      : <code>3fsi &lt;ESC&gt;2;2h.3;.fu.5@='1z=[s'&lt;CR&gt;ZZ</code>
+
+<li>
+amazing solution (18) : <code>A[sE&lt;C-V&gt;dgvpP@.&lt;Esc&gt;U@.ZZ</code>
+
+</ul>
+
 <h2 id="toc_2.2">regex</h2>
 
 <ul>
