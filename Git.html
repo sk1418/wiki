@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Git</title>
+<link rel="stylesheet" type="text/css" href="template/style/main.css" />
+<link type="text/css" rel="stylesheet" href="template/style/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="template/style/shCoreRDark.css"/>
+<script type="text/javascript" src="template/js/jquery.js"></script>
+<!--For code highlighting-->
+<script type="text/javascript" src="template/js/shCore.js"></script>
+<script type="text/javascript" src="template/js/shBrushPlain.js"></script>
+<script type="text/javascript" src="template/js/shBrushVim.js"></script>
+<script type="text/javascript" src="template/js/shBrushBash.js"></script>
+<script type="text/javascript" src="template/js/shBrushCss.js"></script>
+<script type="text/javascript" src="template/js/shBrushJava.js"></script>
+<script type="text/javascript" src="template/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="template/js/shBrushPython.js"></script>
+<script type="text/javascript" src="template/js/shBrushSql.js"></script>
+<script type="text/javascript" src="template/js/shBrushXml.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		SyntaxHighlighter.all();
+		if (window.innerWidth >= 460) {
+		var toggler = $('<div class="toggler" title="Toggle Table Of Content">Table Of Content</div>');
+		toc = $('.toc');
+		toc.wrap('<div class="tocWrap">');
+
+		$('.tocWrap').prepend(toggler)
+		.delay(500)
+		.fadeTo(500, '0.7')
+		.hover(function() {
+			$(this).stop().fadeTo(300, '0.9');
+			}, function() {
+			$(this).stop().fadeTo(300, '0.7');
+			});
+
+		$('html').keypress(function(e) {
+			if (e.shiftKey && (e.charCode || e.keyCode) == '90') {
+			e.preventDefault();
+			$('div.tocWrap').toggle(200);
+			}
+			});
+
+		toggler.click(function() {
+				$('div.toc').slideToggle(300);
+				});
+		}
+
+		$("a,h1,h2,h3,h4,h5,h6").filter(function(index){
+			return $(this).text()=='!Important!';
+				}).addClass("importantMarker");
+
+		
+
+});
+
+
+
+</script>
+</head>
+<body >
+<header id="header">
+<div id="logo" style="font-size: 22pt;text-align:center;"><a href="#">Kent's Wiki</a></div>
+</header>
+<div id="wrap">
+<div id="content">
+
+<h1 id="toc_1">Branches</h1>
+
+<h2 id="toc_1.1">delete branches</h2>
+
+
+
+<h1 id="toc_2">Diff</h1>
+
+<h2 id="toc_2.1">working copy &amp; local repo</h2>
+<pre class="brush: bash">
+git diff
+</pre>
+	
+<h2 id="toc_2.2">stage area &amp; local repo</h2>
+<pre class="brush: bash">
+git diff --cached
+</pre>
+  
+
+<h2 id="toc_2.3">local repo &amp; remote repo</h2>
+<pre class="brush: bash">
+  git fetch 
+  
+  git diff master origin/master
+  or
+  git diff HEAD...origin/master
+  or
+  git diff HEAD..origin
+</pre>
+
+<h1 id="toc_3">discard changes</h1>
+
+<h2 id="toc_3.1">modified files</h2>
+
+<pre class="brush: bash">
+
+#unstaged
+git co .
+git co --
+
+#staged &amp; unstaged
+git reset --hard
+
+</pre>
+  
+<h2 id="toc_3.2">untracked</h2>
+
+<pre class="brush: bash">
+
+#clean : remove unstaged files from working tree
+# -d   : dir
+# -f   : force
+
+git clean -df
+</pre>
+  
+<h1 id="toc_4">Misc</h1>
+
+<h2 id="toc_4.1">git archive</h2>
+
+<pre class="brush: bash>
+# list supported format
+git archive -l 
+
+# do archive:
+git archive --format tar.gz -o /path/to/foo.tar.gz [branch]
+</pre>
+  
+<h2 id="toc_4.2">show outgoing/incoming chgs</h2>
+
+<p>
+similar as <code>hg outgoing/incoming</code>:
+</p>
+
+<pre class="brush: bash>
+
+#In git, list commits that are on branch B but not on branch A, do git log A..B.
+#git fetch first
+
+#outgoing
+git log origin/master..master
+or (FIXME the line below needs to be checked again)
+git log origin..
+
+#incoming
+git log master..origin/master
+
+
+#another option:
+
+#in
+git whatchanged ..origin
+
+#out
+git whatchanged origin..
+</pre>
+
+</div>
+</div>
+<div id="footer">
+<a href="http://www.vim.org" target="_blank"><img border="0" src="template/images/vimLogo.png" alt="Created with Vim" height="36" width="90"></a>
+</div>
+</body>
+</html>
