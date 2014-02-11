@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Index</title>
+<title>Git</title>
 <link rel="stylesheet" type="text/css" href="template/style/main.css" />
 <link type="text/css" rel="stylesheet" href="template/style/shCore.css"/>
 <link type="text/css" rel="stylesheet" href="template/style/shCoreRDark.css"/>
@@ -67,99 +67,114 @@ $(document).ready(function() {
 <div id="wrap">
 <div id="content">
 
+<h1 id="toc_1">find files</h1>
+
+<h2 id="toc_1.1">ls-files</h2>
 <p>
-<a href="tasks/tasks_todos.html">Todo List</a>
+supports glob
+</p>
+<pre class="brush: bash">
+	git ls-files
+</pre>
+  
+<h2 id="toc_1.2">grep files</h2>
+
+<h1 id="toc_2">Branches</h1>
+
+<h2 id="toc_2.1">delete branches</h2>
+
+
+
+<h1 id="toc_3">Diff</h1>
+
+<h2 id="toc_3.1">working copy &amp; local repo</h2>
+<pre class="brush: bash">
+git diff
+</pre>
+	
+<h2 id="toc_3.2">stage area &amp; local repo</h2>
+<pre class="brush: bash">
+git diff --cached
+</pre>
+  
+
+<h2 id="toc_3.3">local repo &amp; remote repo</h2>
+<pre class="brush: bash">
+  git fetch 
+  
+  git diff master origin/master
+  or
+  git diff HEAD...origin/master
+  or
+  git diff HEAD..origin
+</pre>
+
+<h1 id="toc_4">discard changes</h1>
+
+<h2 id="toc_4.1">modified files</h2>
+
+<pre class="brush: bash">
+
+#unstaged
+git co .
+git co --
+
+#staged &amp; unstaged
+git reset --hard
+
+</pre>
+  
+<h2 id="toc_4.2">untracked</h2>
+
+<pre class="brush: bash">
+
+#clean : remove unstaged files from working tree
+# -d   : dir
+# -f   : force
+
+git clean -df
+</pre>
+  
+<h1 id="toc_5">Misc</h1>
+
+<h2 id="toc_5.1">git archive</h2>
+
+<pre class="brush: bash>
+# list supported format
+git archive -l 
+
+# do archive:
+git archive --format tar.gz -o /path/to/foo.tar.gz [branch]
+</pre>
+  
+<h2 id="toc_5.2">show outgoing/incoming chgs</h2>
+
+<p>
+similar as <code>hg outgoing/incoming</code>:
 </p>
 
+<pre class="brush: bash>
 
-<p>
-The wiki was written &gt;90% in English, &lt;10% in Chinese.
-</p>
+#In git, list commits that are on branch B but not on branch A, do git log A..B.
+#git fetch first
 
-<p>
-I am glad if you found any useful information here. 
-</p>
+#outgoing
+git log origin/master..master
+or (FIXME the line below needs to be checked again)
+git log origin..
 
-
-<h1 id="toc_1">Vim</h1>
-<ul>
-<li>
-<a href="vim/tipsTodo.html">tips_TODO</a>
-
-<li>
-<a href="vim/vim_tips.html">Vim tips</a>
-
-<li>
-<a href="vim/vimscript.html">vim script</a>
-
-<li>
-<a href="vim/vim_plugins.html">My vim-plugin summary</a>
-
-<li>
-<a href="tasks/Join-test.html">test plan for Join plugin</a>
-
-</ul>
+#incoming
+git log master..origin/master
 
 
-<h1 id="toc_2">Algorithm</h1>
-<ul>
-<li>
-<a href="algorithm/notes.html">MyNotes</a>
+#another option:
 
-</ul>
+#in
+git whatchanged ..origin
 
-
-<h1 id="toc_3">Linux</h1>
-<ul>
-<li>
-<a href="linux/clishortcuts.html">Command line shortcuts</a>
-
-<li>
-<a href="linux/tools.html">Linux tools tips</a>
-
-<li>
-<a href="linux/printf.html">Printf format explain</a>
-
-</ul>
-
-<h1 id="toc_4">Shell</h1>
-<ul>
-<li>
-<a href="shell/shellTips.html">Shell script Tips</a>
-
-<li>
-<a href="shell/terminalTips.html">Terminal/Shell Tips</a>
-
-<li>
-<a href="shell/sed_tips.html">sed/awk tips</a>
-
-<li>
-<a href="shell/Test_brackets.html">Brackets for test if(..)</a>
-
-<li>
-
-
-</ul>
-
-<h1 id="toc_5">Java</h1>
-<ul>
-<li>
-<a href="java/javaTips.html">Java Tips</a> 
-
-<li>
-<a href="java/passbyvalue.html">Java is "pass by value"</a>
-
-<li>
-<a href="java/intellijKeys.html">Intellij shortcuts</a>
-
-</ul>
-
-<h1 id="toc_6">Misc</h1>
-<ul>
-<li>
-<a href="Git.html">Git</a>
-
-</ul>
+#out
+git whatchanged origin..
+</pre>
 
 </div>
 </div>
