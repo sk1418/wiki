@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>javaTips</title>
+<title>javapitfalls</title>
 <link rel="stylesheet" type="text/css" href="../template/style/main.css" />
 <link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
 <link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
@@ -69,40 +69,32 @@ $(document).ready(function() {
 
 <div class="toc">
 <ul>
-<li><a href="#toc_0.1">Strings</a>
-<ul>
-<li><a href="#toc_0.1.1">Build repeated string</a>
-</ul>
-<li><a href="#toc_0.2">Initialization Procedure</a>
+<li><a href="#toc_0.1">String.substring()</a>
 </ul>
 </ul>
 </div>
-<h2 id="toc_0.1">Strings</h2>
-<h3 id="toc_0.1.1">Build repeated string</h3>
-<pre class="brush: java">
-// repeat "foo" 100 times
-String repeated = new String(new char[100]).replace("\0", "foo");
-</pre>
-  
-<h2 id="toc_0.2">Initialization Procedure</h2>
+
+<h2 id="toc_0.1">String.substring()</h2>
+
 <p>
-see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.2">http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.2</a>
+This question was mainly asked to see if developer is familiar with risk of memory leak, which substring can create. Until Java 1.7, substring holds reference of original character array, which means even a substring of 5 character long, can prevent 1GB character array from garbage collection, by holding a strong reference. This issue is fixed in Java 1.7, where original character array is not referenced any more, but that change also made creation of substring bit costly in terms of time. Earlier it was on the range of <code>O(1)</code>, which could be <code>O(n)</code> in worst case on Java 7. 
 </p>
-<ul>
-<li>
-reference static field only initialize the class which declared this field. e.g. Super delcared field "static a;" calling <code>SubclassOfSuper.a</code> will init<code> Super</code> , but not <code>SubclassOfSuper</code>
-
-<li>
-<code>final</code> field will be optimized by compiler as constant, reference final fields won't init the class.
-<pre class="brush: text">
-	6. Otherwise, record the fact that initialization of the Class object for C is in progress by the current thread, and release LC.
-	Then, initialize the final class variables and fields of interfaces whose values are compile-time constant expressions
-</pre>
-
-</ul>
-  
 
 <p>
+In &lt;1.7 version, <code>substring()</code> calls constructor: 
+</p>
+
+<pre class="brush: java">
+String(int offset, int count, char value[]) {
+	this.value = value;
+	this.offset = offset;
+	this.count = count;
+}
+
+</pre>
+
+<p>
+the <code>char[]</code> is the strong reference
 <a href="../index.html">&lt;&lt;Back</a>
 </p>
 
