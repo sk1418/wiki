@@ -81,7 +81,20 @@ supports glob
 
 <h1 id="toc_2">Branches</h1>
 
-<h2 id="toc_2.1">delete branches</h2>
+<h2 id="toc_2.1">To Last branch</h2>
+
+<pre>
+@{-1} is a way to refer to the last branch you were on. This is accepted not only where an object name is expected, but anywhere a branch name is expected and acts as if you typed the branch name.
+
+E.g. "git branch --track mybranch @{-1}", "git merge @{-1}", and
+"git rev-parse --symbolic-full-name @{-1}" would work as expected.
+</pre>
+
+<p>
+<code>git checkout -</code> is a shorthand for <code>git checkout @{-1}</code>.
+</p>
+
+<h2 id="toc_2.2">delete branches</h2>
 
 
 
@@ -135,11 +148,16 @@ git reset --hard
 git clean -df
 </pre>
   
+<h2 id="toc_4.3">revert commited</h2>
+<p>
+<code>git revert ...</code>
+</p>
+
 <h1 id="toc_5">Misc</h1>
 
 <h2 id="toc_5.1">git archive</h2>
 
-<pre class="brush: bash>
+<pre class="brush: bash">
 # list supported format
 git archive -l 
 
@@ -153,7 +171,7 @@ git archive --format tar.gz -o /path/to/foo.tar.gz [branch]
 similar as <code>hg outgoing/incoming</code>:
 </p>
 
-<pre class="brush: bash>
+<pre class="brush: bash">
 
 #In git, list commits that are on branch B but not on branch A, do git log A..B.
 #git fetch first
@@ -174,6 +192,20 @@ git whatchanged ..origin
 
 #out
 git whatchanged origin..
+</pre>
+
+<h2 id="toc_5.3">remote</h2>
+
+<p>
+remove branches that were already removed remotely: <strong>prune</strong>
+</p>
+<pre class="brush: bash">
+#show remote branches:
+git branch --remote
+
+#remove not existed remote branches (locally)
+git remote --prune origin
+
 </pre>
 
 </div>

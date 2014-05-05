@@ -116,9 +116,10 @@ $(document).ready(function() {
 </ul>
 <li><a href="#toc_10">Misc Tips</a>
 <ul>
-<li><a href="#toc_10.1">Mapping</a>
-<li><a href="#toc_10.2">About <code>!</code></a>
-<li><a href="#toc_10.3">silent</a>
+<li><a href="#toc_10.1">color hi</a>
+<li><a href="#toc_10.2">Mapping</a>
+<li><a href="#toc_10.3">About <code>!</code></a>
+<li><a href="#toc_10.4">silent</a>
 </ul>
 </ul>
 </div>
@@ -141,6 +142,7 @@ alternative buffer (#)
 <p>
 :g gx
 </p>
+
 <h2 id="toc_2.1">Tricks</h2>
 <ul>
 <li>
@@ -653,7 +655,17 @@ endfunction
 </pre>
 
 <h1 id="toc_10">Misc Tips</h1>
-<h2 id="toc_10.1">Mapping</h2>
+
+<h2 id="toc_10.1">color hi</h2>
+<ul>
+<li>
+test highlighting
+<pre class="brush: vim">
+:so $VIMRUNTIME/syntax/hitest.vim
+</pre>
+
+</ul>
+<h2 id="toc_10.2">Mapping</h2>
 <ul>
 <li>
 map dynamic single character
@@ -663,7 +675,7 @@ nnoremap &lt;expr&gt; go '/^' . nr2char(getchar()) . '&lt;CR&gt;'
 
 </ul>
 
-<h2 id="toc_10.2">About <code>!</code></h2>
+<h2 id="toc_10.3">About <code>!</code></h2>
 
 <ul>
 <li>
@@ -677,7 +689,7 @@ nnoremap &lt;expr&gt; go '/^' . nr2char(getchar()) . '&lt;CR&gt;'
 
 </ul>
 
-<h2 id="toc_10.3">silent</h2>
+<h2 id="toc_10.4">silent</h2>
 
 <ul>
 <li>
