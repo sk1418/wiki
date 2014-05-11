@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>javaTips</title>
+<title>system</title>
 <link rel="stylesheet" type="text/css" href="../template/style/main.css" />
 <link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
 <link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
@@ -67,80 +67,58 @@ $(document).ready(function() {
 <div id="wrap">
 <div id="content">
 
-<div class="toc">
-<ul>
-<li><a href="#toc_0.1">Pitfalls</a>
-<ul>
-<li><a href="#toc_0.1.1">check even/odd</a>
-<li><a href="#toc_0.1.2">silent number overflow</a>
-</ul>
-<li><a href="#toc_0.2">Strings</a>
-<ul>
-<li><a href="#toc_0.2.1">Build repeated string</a>
-</ul>
-<li><a href="#toc_0.3">Initialization Procedure</a>
-<li><a href="#toc_0.4">Comparable/Comparator</a>
-<li><a href="#toc_0.5">Performance</a>
-</ul>
-</ul>
-</div>
 
-<h2 id="toc_0.1">Pitfalls</h2>
-
-<h3 id="toc_0.1.1">check even/odd</h3>
+<h2 id="toc_0.1">bind/unbind USB ports</h2>
 <p>
- Do <strong>NOT</strong> use <code>if (i % 2 == 1)</code>  it won't work for negative numbers. Use
+<code>/sys/bus/pci/drivers/${driver}_hcd</code>
 </p>
-<pre class="brush: java">
-	if (i % 2 != 0)
-//or even better with bitwise AND operator
-	if ((i &amp; 1) !=0)
+
+<p>
+	<code>${driver}</code> could be <code>ehci ohci uhci</code>
+</p>
+	
+<p>
+	the file with <code>:</code> is the id,  
+</p>
+<pre>
+#to unbind
+ echo -n ${id} &gt; unbind
+
+#bind
+ echo -n ${id} &gt; bind
+ 
+#Note that after unbind, the id file will be gone, the id should be somehow saved to re-bind
 </pre>
 
-<h3 id="toc_0.1.2">silent number overflow</h3>
 <p>
-<code>final long NUM=24 * 60 * 60 * 1000 * 1000;</code> will overflow, since java will automatically think all constants are int, and result is int even if declared as <code>long</code>
-Solution is <code>final long NUM=24L * 60 * 60 * 1000 * 1000;</code> (<strong>better with big L</strong>)
+script to bind/unbind:
 </p>
 
-<h2 id="toc_0.2">Strings</h2>
-<h3 id="toc_0.2.1">Build repeated string</h3>
-<pre class="brush: java">
-// repeat "foo" 100 times
-String repeated = new String(new char[100]).replace("\0", "foo");
+<pre class="brush: bash">
+function unbind_usb {
+    for driver in ehci ohci uhci; do
+        cd "/sys/bus/pci/drivers/${driver}_hcd";
+        ids=$(ls | grep :);
+        echo $ids &gt; /tmp/DISABLED_$driver;
+        for id in $ids; do
+            echo "Unbinding $id";
+            echo -n "$id" &gt; unbind;
+            disabled="$disabled $id";
+        done;
+    done;
+}
+
+function bind_usb {
+    for driver in ehci ohci uhci; do
+        cd "/sys/bus/pci/drivers/${driver}_hcd";
+        for id in $(cat /tmp/DISABLED_$driver); do
+            echo "Binding $id";
+            echo -n "$id" &gt; bind;
+        done;
+        rm /tmp/DISABLED_$driver;
+    done;
+}
 </pre>
-  
-<h2 id="toc_0.3">Initialization Procedure</h2>
-<p>
-see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.2">http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.2</a>
-</p>
-<ul>
-<li>
-reference static field only initialize the class which declared this field. e.g. Super delcared field "static a;" calling <code>SubclassOfSuper.a</code> will init<code> Super</code> , but not <code>SubclassOfSuper</code>
-
-<li>
-<code>final</code> field will be optimized by compiler as constant, reference final fields won't init the class.
-<pre class="brush: text">
-	6. Otherwise, record the fact that initialization of the Class object for C is in progress by the current thread, and release LC.
-	Then, initialize the final class variables and fields of interfaces whose values are compile-time constant expressions
-</pre>
-
-</ul>
-  
-<h2 id="toc_0.4">Comparable/Comparator</h2>
-
-<p>
-the implmentation of <code>compareTo()</code> or <code>compare()</code> method must be consistent with <code>equals()</code>. 
-</p>
-
-<h2 id="toc_0.5">Performance</h2>
-
-<ul>
-<li>
-To use TreeSet usually don't do <code>treeSet.add(..)</code>, but build a collection (<code>hashSet</code> for example), then convert it into TreeSet. Because TreeSet.add() is slower.
-
-</ul>
-
 <p>
 <a href="../index.html">&lt;&lt;Back</a>
 </p>
