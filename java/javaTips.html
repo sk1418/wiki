@@ -76,7 +76,8 @@ $(document).ready(function() {
 </ul>
 <li><a href="#toc_0.2">Strings</a>
 <ul>
-<li><a href="#toc_0.2.1">Build repeated string</a>
+<li><a href="#toc_0.2.1">Matcher.quoteReplacement(string)</a>
+<li><a href="#toc_0.2.2">Build repeated string</a>
 </ul>
 <li><a href="#toc_0.3">Initialization Procedure</a>
 <li><a href="#toc_0.4">Comparable/Comparator</a>
@@ -104,7 +105,12 @@ Solution is <code>final long NUM=24L * 60 * 60 * 1000 * 1000;</code> (<strong>be
 </p>
 
 <h2 id="toc_0.2">Strings</h2>
-<h3 id="toc_0.2.1">Build repeated string</h3>
+<h3 id="toc_0.2.1">Matcher.quoteReplacement(string)</h3>
+<p>
+<code>$ or \</code> in replacement part of <code>replaceAll()</code> has special meaning. With <code>Mather.quoteReplacement(str)</code>, those chars will lost their special meanings.
+</p>
+
+<h3 id="toc_0.2.2">Build repeated string</h3>
 <pre class="brush: java">
 // repeat "foo" 100 times
 String repeated = new String(new char[100]).replace("\0", "foo");
