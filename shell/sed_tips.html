@@ -74,6 +74,7 @@ $(document).ready(function() {
 <li><a href="#toc_1.1">Misc Tricks</a>
 <li><a href="#toc_1.2">printf to output thousand separator</a>
 <li><a href="#toc_1.3">character &lt;=&gt; ascii codes</a>
+<li><a href="#toc_1.4">getline with pipe</a>
 </ul>
 <li><a href="#toc_2">GNU Sed</a>
 <ul>
@@ -112,6 +113,28 @@ echo a | awk 'BEGIN{for(n=0;n&lt;256;n++)ord[sprintf("%c",n)]=n}{print ord[$1]}'
 echo 97 | awk 'BEGIN{for(n=0;n&lt;256;n++)chr[n]=sprintf("%c",n)}{print chr[$1]}'
 a
 </pre>
+
+<h2 id="toc_1.4">getline with pipe</h2>
+
+<p>
+the cmd should be closed after <code>getline</code> like <code>cmd1 | getline result; close(cmd1)</code> source:<a href="http://www.gnu.org/software/gawk/manual/html_node/Getline_002fPipe.html#Getline_002fPipe">http://www.gnu.org/software/gawk/manual/html_node/Getline_002fPipe.html#Getline_002fPipe</a> 
+</p>
+
+<p>
+To see problem, make a file with 3 same lines: <code>1</code>, then:
+</p>
+
+<pre  class="brush: bash">
+kent$  awk  '{m="";cmd=sprintf("echo -n \"%s\"|md5sum",$1);(cmd | getline m) ;print m;}' f                                                                                  
+c4ca4238a0b923820dcc509a6f75849b  -
+&lt;3 empty lines&gt;
+
+kent$  awk  '{m="";cmd=sprintf("echo -n \"%s\"|md5sum",$1);(cmd | getline m) close(cmd);print m;}' f
+c4ca4238a0b923820dcc509a6f75849b  -
+c4ca4238a0b923820dcc509a6f75849b  -
+c4ca4238a0b923820dcc509a6f75849b  -
+</pre>
+
 
 <h1 id="toc_2">GNU Sed</h1>
 
