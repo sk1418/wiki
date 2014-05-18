@@ -125,7 +125,7 @@ To see problem, make a file with 3 same lines: <code>1</code>, then:
 </p>
 
 <pre  class="brush: bash">
-kent$  awk  '{m="";cmd=sprintf("echo -n \"%s\"|md5sum",$1);(cmd | getline m) ;print m;}' f                                                                                  
+kent$  awk  '{m="";cmd=sprintf("echo -n \"%s\"|md5sum",$1);(cmd | getline m) ;print m;}' f 
 c4ca4238a0b923820dcc509a6f75849b  -
 &lt;3 empty lines&gt;
 

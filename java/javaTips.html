@@ -73,6 +73,11 @@ $(document).ready(function() {
 <ul>
 <li><a href="#toc_0.1.1">check even/odd</a>
 <li><a href="#toc_0.1.2">silent number overflow</a>
+<li><a href="#toc_0.1.3">double/float tips</a>
+<ul>
+<li><a href="#toc_0.1.3.1">represent infinity:</a>
+<li><a href="#toc_0.1.3.2">large float/double</a>
+</ul>
 </ul>
 <li><a href="#toc_0.2">Strings</a>
 <ul>
@@ -102,6 +107,31 @@ $(document).ready(function() {
 <p>
 <code>final long NUM=24 * 60 * 60 * 1000 * 1000;</code> will overflow, since java will automatically think all constants are int, and result is int even if declared as <code>long</code>
 Solution is <code>final long NUM=24L * 60 * 60 * 1000 * 1000;</code> (<strong>better with big L</strong>)
+</p>
+
+<h3 id="toc_0.1.3">double/float tips</h3>
+<p>
+1. it is possible to represent infinity as a double or a float.
+2. adding a small floating-point value to a large one will not change the large value
+3. binary floating-point arithmetic is only an approximation to real arithmetic.
+4. (from puzzle 28)
+</p>
+
+<h4 id="toc_0.1.3.1">represent infinity:</h4>
+
+<pre class="brush: java">
+double i = 1.0 /0.0;
+double i = Double.POSITIVE_INFINITY;
+</pre>
+
+<h4 id="toc_0.1.3.2">large float/double</h4>
+
+<p>
+Floating-point operations return the floating-point value that is closest to their exact mathematical result. Once the distance between adjacent floating-point values is greater than 2, adding 1 to a floating-point value will have no effect, because the half-way point between values won’t be reached. For the float type, the least magnitude beyond which adding 1 will have no effect is 2^25 , or 33,554,432; for the double type, it is <code>2^54</code> , or approximately <code>1.8 × 10^16</code> .
+</p>
+
+<p>
+The distance between adjacent floating-point values is called an ulp, which is an acronym for unit in the last place. In release 5.0, the Math.ulp method was introduced to calculate the ulp of a float or double value.
 </p>
 
 <h2 id="toc_0.2">Strings</h2>
