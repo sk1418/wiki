@@ -90,9 +90,11 @@ $(document).ready(function() {
 </ul>
 <li><a href="#toc_4">Others</a>
 <ul>
-<li><a href="#toc_4.1">Initialization Procedure</a>
-<li><a href="#toc_4.2">Comparable/Comparator</a>
-<li><a href="#toc_4.3">Performance</a>
+<li><a href="#toc_4.1">&amp; and &amp;&amp;, | and ||</a>
+<li><a href="#toc_4.2">shutdown hook</a>
+<li><a href="#toc_4.3">Initialization Procedure</a>
+<li><a href="#toc_4.4">Comparable/Comparator</a>
+<li><a href="#toc_4.5">Performance</a>
 </ul>
 </ul>
 </div>
@@ -180,7 +182,39 @@ public class Arcane3 implements Type3 {
 </pre>
 
 <h1 id="toc_4">Others</h1>
-<h2 id="toc_4.1">Initialization Procedure</h2>
+
+<h2 id="toc_4.1">&amp; and &amp;&amp;, | and ||</h2>
+<ul>
+<li>
+&amp; and | : logical AND/OR operator
+
+<li>
+&amp;&amp; and ||: conditional AND/OR operator
+
+<li>
+&amp; and | evaluate both sides (left and right)
+
+</ul>
+
+<h2 id="toc_4.2">shutdown hook</h2>
+
+<pre class="brush: java">
+	public class HelloGoodbye {
+		public static void main(String[] args) {
+			System.out.println("Hello world");
+			Runtime.getRuntime().addShutdownHook(
+					new Thread() {
+					public void run() {
+					System.out.println("Goodbye world");
+					}
+					});
+			System.exit(0);
+		}
+	}
+	
+	//print hello and goodby
+</pre>
+<h2 id="toc_4.3">Initialization Procedure</h2>
 <p>
 see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.2">http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.2</a>
 </p>
@@ -197,13 +231,13 @@ reference static field only initialize the class which declared this field. e.g.
 
 </ul>
   
-<h2 id="toc_4.2">Comparable/Comparator</h2>
+<h2 id="toc_4.4">Comparable/Comparator</h2>
 
 <p>
 the implmentation of <code>compareTo()</code> or <code>compare()</code> method must be consistent with <code>equals()</code>. 
 </p>
 
-<h2 id="toc_4.3">Performance</h2>
+<h2 id="toc_4.5">Performance</h2>
 
 <ul>
 <li>
