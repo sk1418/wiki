@@ -93,8 +93,9 @@ $(document).ready(function() {
 <li><a href="#toc_4.1">&amp; and &amp;&amp;, | and ||</a>
 <li><a href="#toc_4.2">shutdown hook</a>
 <li><a href="#toc_4.3">Initialization Procedure</a>
-<li><a href="#toc_4.4">Comparable/Comparator</a>
-<li><a href="#toc_4.5">Performance</a>
+<li><a href="#toc_4.4">method overload</a>
+<li><a href="#toc_4.5">Comparable/Comparator</a>
+<li><a href="#toc_4.6">Performance</a>
 </ul>
 </ul>
 </div>
@@ -230,14 +231,28 @@ reference static field only initialize the class which declared this field. e.g.
 </pre>
 
 </ul>
+
+<h2 id="toc_4.4">method overload</h2>
+
+<p>
+To decide which overloadings are applicable: take the most spesific one. (parameter) For example:
+</p>
+
+<pre class="brush: java">
+method1: void foo(Object o){...}
+method2: void foo(int[] array){...}
+
+//the foo(int[] array) would be called, since it is more spesific than the other
+caller: object.foo(null); 
+</pre>
   
-<h2 id="toc_4.4">Comparable/Comparator</h2>
+<h2 id="toc_4.5">Comparable/Comparator</h2>
 
 <p>
 the implmentation of <code>compareTo()</code> or <code>compare()</code> method must be consistent with <code>equals()</code>. 
 </p>
 
-<h2 id="toc_4.5">Performance</h2>
+<h2 id="toc_4.6">Performance</h2>
 
 <ul>
 <li>
