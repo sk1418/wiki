@@ -67,9 +67,17 @@ $(document).ready(function() {
 <div id="wrap">
 <div id="content">
 
-<h1 id="toc_1">find files</h1>
+<h1 id="toc_1">check history</h1>
+<h2 id="toc_1.1">check history of a file</h2>
 
-<h2 id="toc_1.1">ls-files</h2>
+<pre class="brush: bash">
+	gitk filename
+or
+	git log --follow filename
+</pre>
+<h1 id="toc_2">find files</h1>
+
+<h2 id="toc_2.1">ls-files</h2>
 <p>
 supports glob
 </p>
@@ -77,11 +85,11 @@ supports glob
 	git ls-files
 </pre>
   
-<h2 id="toc_1.2">grep files</h2>
+<h2 id="toc_2.2">grep files</h2>
 
-<h1 id="toc_2">Branches</h1>
+<h1 id="toc_3">Branches</h1>
 
-<h2 id="toc_2.1">To Last branch</h2>
+<h2 id="toc_3.1">To Last branch</h2>
 
 <pre>
 @{-1} is a way to refer to the last branch you were on. This is accepted not only where an object name is expected, but anywhere a branch name is expected and acts as if you typed the branch name.
@@ -94,24 +102,24 @@ E.g. "git branch --track mybranch @{-1}", "git merge @{-1}", and
 <code>git checkout -</code> is a shorthand for <code>git checkout @{-1}</code>.
 </p>
 
-<h2 id="toc_2.2">delete branches</h2>
+<h2 id="toc_3.2">delete branches</h2>
 
 
 
-<h1 id="toc_3">Diff</h1>
+<h1 id="toc_4">Diff</h1>
 
-<h2 id="toc_3.1">working copy &amp; local repo</h2>
+<h2 id="toc_4.1">working copy &amp; local repo</h2>
 <pre class="brush: bash">
 git diff
 </pre>
 	
-<h2 id="toc_3.2">stage area &amp; local repo</h2>
+<h2 id="toc_4.2">stage area &amp; local repo</h2>
 <pre class="brush: bash">
 git diff --cached
 </pre>
   
 
-<h2 id="toc_3.3">local repo &amp; remote repo</h2>
+<h2 id="toc_4.3">local repo &amp; remote repo</h2>
 <pre class="brush: bash">
   git fetch 
   
@@ -122,9 +130,9 @@ git diff --cached
   git diff HEAD..origin
 </pre>
 
-<h1 id="toc_4">discard changes</h1>
+<h1 id="toc_5">discard changes</h1>
 
-<h2 id="toc_4.1">modified files</h2>
+<h2 id="toc_5.1">modified files</h2>
 
 <pre class="brush: bash">
 
@@ -137,7 +145,7 @@ git reset --hard
 
 </pre>
   
-<h2 id="toc_4.2">untracked</h2>
+<h2 id="toc_5.2">untracked</h2>
 
 <pre class="brush: bash">
 
@@ -148,14 +156,14 @@ git reset --hard
 git clean -df
 </pre>
   
-<h2 id="toc_4.3">revert commited</h2>
+<h2 id="toc_5.3">revert commited</h2>
 <p>
 <code>git revert ...</code>
 </p>
 
-<h1 id="toc_5">Misc</h1>
+<h1 id="toc_6">Misc</h1>
 
-<h2 id="toc_5.1">git archive</h2>
+<h2 id="toc_6.1">git archive</h2>
 
 <pre class="brush: bash">
 # list supported format
@@ -165,7 +173,7 @@ git archive -l
 git archive --format tar.gz -o /path/to/foo.tar.gz [branch]
 </pre>
   
-<h2 id="toc_5.2">show outgoing/incoming chgs</h2>
+<h2 id="toc_6.2">show outgoing/incoming chgs</h2>
 
 <p>
 similar as <code>hg outgoing/incoming</code>:
@@ -194,7 +202,7 @@ git whatchanged ..origin
 git whatchanged origin..
 </pre>
 
-<h2 id="toc_5.3">remote</h2>
+<h2 id="toc_6.3">remote</h2>
 
 <p>
 remove branches that were already removed remotely: <strong>prune</strong>
