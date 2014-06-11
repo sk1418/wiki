@@ -73,8 +73,18 @@ $(document).ready(function() {
 <pre class="brush: bash">
 	gitk filename
 or
+	git log -- filename
 	git log --follow filename
 </pre>
+
+<p>
+if need the content of each commit:
+</p>
+
+<pre class="brush: bash">
+	git log --follow -p filename
+</pre>
+
 <h1 id="toc_2">find files</h1>
 
 <h2 id="toc_2.1">ls-files</h2>
