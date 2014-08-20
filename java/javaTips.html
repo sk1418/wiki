@@ -94,8 +94,9 @@ $(document).ready(function() {
 <li><a href="#toc_4.2">shutdown hook</a>
 <li><a href="#toc_4.3">Initialization Procedure</a>
 <li><a href="#toc_4.4">method overload</a>
-<li><a href="#toc_4.5">Comparable/Comparator</a>
-<li><a href="#toc_4.6">Performance</a>
+<li><a href="#toc_4.5">static methods</a>
+<li><a href="#toc_4.6">Comparable/Comparator</a>
+<li><a href="#toc_4.7">Performance</a>
 </ul>
 </ul>
 </div>
@@ -246,13 +247,41 @@ method2: void foo(int[] array){...}
 caller: object.foo(null); 
 </pre>
   
-<h2 id="toc_4.5">Comparable/Comparator</h2>
+<h2 id="toc_4.5">static methods</h2>
+<pre class="brush: java">
+	class Dog {
+		public static void bark() {
+			System.out.print("woof ");
+		}
+	}
+	class Basenji extends Dog {
+		public static void bark() { }
+	}
+	public class Bark {
+		public static void main(String args[]) {
+			Dog woofer = new Dog();
+			Dog nipper = new Basenji();
+			woofer.bark();
+			nipper.bark();
+		}
+	} 
+</pre>
+
+<p>
+the output is <code>woof woof</code>
+</p>
+
+<p>
+*<strong>There is no dynamic dispatch on static methods</strong>*.  When a program calls a static method, the method to be invoked is selected at compile time, based on the compile-time type of the qualifier, which is the name we give to the part of the method invocation expression to the left of the dot. In this case, the qualifiers of the two method invocations are the variables woofer and nipper , both of which are declared to be of type Dog . Because they have the same compile-time type, the compiler causes the same method to be invoked: Dog.bark . This explains why the program prints woof woof . It doesn’t matter that the runtime type of nipper is Basenji ; only its compile-time type is considered.
+</p>
+
+<h2 id="toc_4.6">Comparable/Comparator</h2>
 
 <p>
 the implmentation of <code>compareTo()</code> or <code>compare()</code> method must be consistent with <code>equals()</code>. 
 </p>
 
-<h2 id="toc_4.6">Performance</h2>
+<h2 id="toc_4.7">Performance</h2>
 
 <ul>
 <li>
