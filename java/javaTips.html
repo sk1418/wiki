@@ -97,6 +97,7 @@ $(document).ready(function() {
 <li><a href="#toc_4.5">static methods</a>
 <li><a href="#toc_4.6">Comparable/Comparator</a>
 <li><a href="#toc_4.7">Performance</a>
+<li><a href="#toc_4.8">Variable Declaration</a>
 </ul>
 </ul>
 </div>
@@ -288,6 +289,24 @@ the implmentation of <code>compareTo()</code> or <code>compare()</code> method m
 To use TreeSet usually don't do <code>treeSet.add(..)</code>, but build a collection (<code>hashSet</code> for example), then convert it into TreeSet. Because TreeSet.add() is slower.
 
 </ul>
+ 
+<h2 id="toc_4.8">Variable Declaration</h2>
+<p>
+*<strong>A local variable declaration can appear only as a statement directly within a block.</strong>* (A block is a pair of curly braces and the statements and declarations contained within it.)
+</p>
+
+
+<pre class="brush: java">
+ 
+ for (int i =1; i&lt;100; i++)
+	Object o = new Object();  //won't be compiled
+
+ for (int i =1; i&lt;100; i++){
+	Object o = new Object();  //ok
+ }
+ 
+</pre>
+  
 
 <p>
 <a href="../index.html">&lt;&lt;Back</a>
