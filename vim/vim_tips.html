@@ -174,14 +174,10 @@ Use Vim's spell check feature to split this sentence into words using spaces.
  Vim: set spell:
 </pre>
 
-<ul>
-<li>
-my solution (30)      : <code>3fsi &lt;ESC&gt;2;2h.3;.fu.5@='1z=[s'&lt;CR&gt;ZZ</code>
-
-<li>
-amazing solution (18) : <code>A[sE&lt;C-V&gt;dgvpP@.&lt;Esc&gt;U@.ZZ</code>
-
-</ul>
+<pre>
+	- my solution (30)      : 3fsi &lt;ESC&gt;2;2h.3;.fu.5@='1z=[s'&lt;CR&gt;ZZ
+	- amazing solution (18) : A[sE&lt;C-V&gt;dgvpP@.&lt;Esc&gt;U@.ZZ
+</pre>
  
 <ul>
 <li>
@@ -197,6 +193,20 @@ option 2: <code>qq$xPq then x@q x is the columns</code>
 </ul>
 </ul>
 
+<ul>
+<li>
+separate letters
+<pre>
+change abcde into -a-b-c-d-e-  
+:s/\_A*/-/g
+
+using \A* won't add the - to the end. 
+</pre>
+
+</ul>
+<p>
+chan
+</p>
 <h2 id="toc_2.2">regex</h2>
 
 <ul>
