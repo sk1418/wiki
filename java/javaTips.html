@@ -71,13 +71,15 @@ $(document).ready(function() {
 <ul>
 <li><a href="#toc_1">Numbers</a>
 <ul>
-<li><a href="#toc_1.1">check even/odd</a>
-<li><a href="#toc_1.2">silent number overflow</a>
-<li><a href="#toc_1.3">double/float tips</a>
+<li><a href="#toc_1.1">comparator</a>
+<li><a href="#toc_1.2">check even/odd</a>
+<li><a href="#toc_1.3">silent number overflow</a>
+<li><a href="#toc_1.4">double/float tips</a>
 <ul>
-<li><a href="#toc_1.3.1">represent infinity:</a>
-<li><a href="#toc_1.3.2">large float/double</a>
+<li><a href="#toc_1.4.1">represent infinity:</a>
+<li><a href="#toc_1.4.2">large float/double</a>
 </ul>
+<li><a href="#toc_1.5">Math.abs()</a>
 </ul>
 <li><a href="#toc_2">Strings</a>
 <ul>
@@ -88,22 +90,32 @@ $(document).ready(function() {
 <ul>
 <li><a href="#toc_3.1">same method in different interface</a>
 </ul>
-<li><a href="#toc_4">Others</a>
+<li><a href="#toc_4">Class, Method, variables</a>
 <ul>
-<li><a href="#toc_4.1">&amp; and &amp;&amp;, | and ||</a>
-<li><a href="#toc_4.2">shutdown hook</a>
-<li><a href="#toc_4.3">Initialization Procedure</a>
-<li><a href="#toc_4.4">method overload</a>
-<li><a href="#toc_4.5">static methods</a>
-<li><a href="#toc_4.6">Comparable/Comparator</a>
-<li><a href="#toc_4.7">Performance</a>
-<li><a href="#toc_4.8">Variable Declaration</a>
+<li><a href="#toc_4.1">Initialization Procedure</a>
+<li><a href="#toc_4.2">method overload</a>
+<li><a href="#toc_4.3">hide v.s. overriding</a>
+<li><a href="#toc_4.4">static methods</a>
+<li><a href="#toc_4.5">Comparable/Comparator</a>
+<li><a href="#toc_4.6">Performance</a>
+<li><a href="#toc_4.7">Variable Declaration</a>
+</ul>
+<li><a href="#toc_5">Others</a>
+<ul>
+<li><a href="#toc_5.1">&amp; and &amp;&amp;, | and ||</a>
+<li><a href="#toc_5.2">shutdown hook</a>
 </ul>
 </ul>
 </div>
 
 <h1 id="toc_1">Numbers</h1>
-<h2 id="toc_1.1">check even/odd</h2>
+
+<h2 id="toc_1.1">comparator</h2>
+<p>
+do *<strong>NOT</strong>* use <code>return i2-i1;</code> as <code>compare()</code> method. since the result could lead overflow. 
+</p>
+
+<h2 id="toc_1.2">check even/odd</h2>
 <p>
  Do <strong>NOT</strong> use <code>if (i % 2 == 1)</code>  it won't work for negative numbers. Use
 </p>
@@ -113,13 +125,13 @@ $(document).ready(function() {
 	if ((i &amp; 1) !=0)
 </pre>
 
-<h2 id="toc_1.2">silent number overflow</h2>
+<h2 id="toc_1.3">silent number overflow</h2>
 <p>
 <code>final long NUM=24 * 60 * 60 * 1000 * 1000;</code> will overflow, since java will automatically think all constants are int, and result is int even if declared as <code>long</code>
 Solution is <code>final long NUM=24L * 60 * 60 * 1000 * 1000;</code> (<strong>better with big L</strong>)
 </p>
 
-<h2 id="toc_1.3">double/float tips</h2>
+<h2 id="toc_1.4">double/float tips</h2>
 <p>
 1. it is possible to represent infinity as a double or a float.
 2. adding a small floating-point value to a large one will not change the large value
@@ -127,14 +139,14 @@ Solution is <code>final long NUM=24L * 60 * 60 * 1000 * 1000;</code> (<strong>be
 4. (from puzzle 28)
 </p>
 
-<h3 id="toc_1.3.1">represent infinity:</h3>
+<h3 id="toc_1.4.1">represent infinity:</h3>
 
 <pre class="brush: java">
 double i = 1.0 /0.0;
 double i = Double.POSITIVE_INFINITY;
 </pre>
 
-<h3 id="toc_1.3.2">large float/double</h3>
+<h3 id="toc_1.4.2">large float/double</h3>
 
 <p>
 Floating-point operations return the floating-point value that is closest to their exact mathematical result. Once the distance between adjacent floating-point values is greater than 2, adding 1 to a floating-point value will have no effect, because the half-way point between values won’t be reached. For the float type, the least magnitude beyond which adding 1 will have no effect is 2^25 , or 33,554,432; for the double type, it is <code>2^54</code> , or approximately <code>1.8 × 10^16</code> .
@@ -142,6 +154,11 @@ Floating-point operations return the floating-point value that is closest to the
 
 <p>
 The distance between adjacent floating-point values is called an ulp, which is an acronym for unit in the last place. In release 5.0, the Math.ulp method was introduced to calculate the ulp of a float or double value.
+</p>
+
+<h2 id="toc_1.5">Math.abs()</h2>
+<p>
+if the argument number is <code>Integer.MIN_VALUE</code> , the result of the method is same as <code>Integer.MIN_VALUE</code>
 </p>
 
 <h1 id="toc_2">Strings</h1>
@@ -184,40 +201,9 @@ public class Arcane3 implements Type3 {
 }
 </pre>
 
-<h1 id="toc_4">Others</h1>
+<h1 id="toc_4">Class, Method, variables</h1>
 
-<h2 id="toc_4.1">&amp; and &amp;&amp;, | and ||</h2>
-<ul>
-<li>
-&amp; and | : logical AND/OR operator
-
-<li>
-&amp;&amp; and ||: conditional AND/OR operator
-
-<li>
-&amp; and | evaluate both sides (left and right)
-
-</ul>
-
-<h2 id="toc_4.2">shutdown hook</h2>
-
-<pre class="brush: java">
-	public class HelloGoodbye {
-		public static void main(String[] args) {
-			System.out.println("Hello world");
-			Runtime.getRuntime().addShutdownHook(
-					new Thread() {
-					public void run() {
-					System.out.println("Goodbye world");
-					}
-					});
-			System.exit(0);
-		}
-	}
-	
-	//print hello and goodby
-</pre>
-<h2 id="toc_4.3">Initialization Procedure</h2>
+<h2 id="toc_4.1">Initialization Procedure</h2>
 <p>
 see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.2">http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.2</a>
 </p>
@@ -234,7 +220,13 @@ reference static field only initialize the class which declared this field. e.g.
 
 </ul>
 
-<h2 id="toc_4.4">method overload</h2>
+<ul>
+<li>
+The instance variable initializers run before the body of the constructor
+
+</ul>
+
+<h2 id="toc_4.2">method overload</h2>
 
 <p>
 To decide which overloadings are applicable: take the most spesific one. (parameter) For example:
@@ -247,8 +239,36 @@ method2: void foo(int[] array){...}
 //the foo(int[] array) would be called, since it is more spesific than the other
 caller: object.foo(null); 
 </pre>
+
+
+<h2 id="toc_4.3">hide v.s. overriding</h2>
+
+<p>
+Once a method is overridden in a subclass, you can’t invoke it on an instance of the subclass (except from within the subclass, by using the super keyword). You can, however, access a hidden field by casting the subclass instance to a superclass in which the field is not hidden. 
+</p>
+
+<p>
+E.g.
+</p>
+
+<pre class="brush: java">
+Class Base{
+	protected String name="base";
+}
+
+Class Sub extends Base{
+	protected String name="sub";
+}
+
+now, say sub is an object of Sub. 
+
+sub.a would be "sub" while:
+(Base)sub.a would be "base"
+
+</pre>
+
   
-<h2 id="toc_4.5">static methods</h2>
+<h2 id="toc_4.4">static methods</h2>
 <pre class="brush: java">
 	class Dog {
 		public static void bark() {
@@ -276,13 +296,13 @@ the output is <code>woof woof</code>
 *<strong>There is no dynamic dispatch on static methods</strong>*.  When a program calls a static method, the method to be invoked is selected at compile time, based on the compile-time type of the qualifier, which is the name we give to the part of the method invocation expression to the left of the dot. In this case, the qualifiers of the two method invocations are the variables woofer and nipper , both of which are declared to be of type Dog . Because they have the same compile-time type, the compiler causes the same method to be invoked: Dog.bark . This explains why the program prints woof woof . It doesn’t matter that the runtime type of nipper is Basenji ; only its compile-time type is considered.
 </p>
 
-<h2 id="toc_4.6">Comparable/Comparator</h2>
+<h2 id="toc_4.5">Comparable/Comparator</h2>
 
 <p>
 the implmentation of <code>compareTo()</code> or <code>compare()</code> method must be consistent with <code>equals()</code>. 
 </p>
 
-<h2 id="toc_4.7">Performance</h2>
+<h2 id="toc_4.6">Performance</h2>
 
 <ul>
 <li>
@@ -290,7 +310,7 @@ To use TreeSet usually don't do <code>treeSet.add(..)</code>, but build a collec
 
 </ul>
  
-<h2 id="toc_4.8">Variable Declaration</h2>
+<h2 id="toc_4.7">Variable Declaration</h2>
 <p>
 *<strong>A local variable declaration can appear only as a statement directly within a block.</strong>* (A block is a pair of curly braces and the statements and declarations contained within it.)
 </p>
@@ -308,6 +328,39 @@ To use TreeSet usually don't do <code>treeSet.add(..)</code>, but build a collec
 </pre>
   
 
+<h1 id="toc_5">Others</h1>
+
+<h2 id="toc_5.1">&amp; and &amp;&amp;, | and ||</h2>
+<ul>
+<li>
+&amp; and | : logical AND/OR operator
+
+<li>
+&amp;&amp; and ||: conditional AND/OR operator
+
+<li>
+&amp; and | evaluate both sides (left and right)
+
+</ul>
+
+<h2 id="toc_5.2">shutdown hook</h2>
+
+<pre class="brush: java">
+	public class HelloGoodbye {
+		public static void main(String[] args) {
+			System.out.println("Hello world");
+			Runtime.getRuntime().addShutdownHook(
+					new Thread() {
+					public void run() {
+					System.out.println("Goodbye world");
+					}
+					});
+			System.exit(0);
+		}
+	}
+	
+	//print hello and goodby
+</pre>
 <p>
 <a href="../index.html">&lt;&lt;Back</a>
 </p>
