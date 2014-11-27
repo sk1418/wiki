@@ -158,7 +158,37 @@ git diff --cached
 
 <h1 id="toc_5">discard changes</h1>
 
-<h2 id="toc_5.1">modified files</h2>
+<h1 id="toc_6">ignore changes to already tracked files</h1>
+
+<ul>
+<li>
+Temporarily ignore file/directories
+
+</ul>
+ 
+<pre class="brush: bash">
+	#ignore changes on file or directory
+	git update-index --assume-unchanged &lt;file/directory&gt;
+	
+	#start tracking change again
+	git update-index --no-assume-unchanged &lt;file/directory&gt;
+</pre>
+
+<ul>
+<li>
+make the <code>.gitignore</code> work
+
+</ul>
+
+<pre class="brush: bash">
+	= #First: Delete the file from the repository cache =
+	git rm --cached path/file
+
+	#Second: Add the ignore rule to your .gitignore file
+	path/filename
+</pre>
+
+<h2 id="toc_6.1">modified files</h2>
 
 <pre class="brush: bash">
 
@@ -171,7 +201,7 @@ git reset --hard
 
 </pre>
   
-<h2 id="toc_5.2">untracked</h2>
+<h2 id="toc_6.2">untracked</h2>
 
 <pre class="brush: bash">
 
@@ -182,14 +212,14 @@ git reset --hard
 git clean -df
 </pre>
   
-<h2 id="toc_5.3">revert commited</h2>
+<h2 id="toc_6.3">revert commited</h2>
 <p>
 <code>git revert ...</code>
 </p>
 
-<h1 id="toc_6">Misc</h1>
+<h1 id="toc_7">Misc</h1>
 
-<h2 id="toc_6.1">git archive</h2>
+<h2 id="toc_7.1">git archive</h2>
 
 <pre class="brush: bash">
 # list supported format
@@ -199,7 +229,7 @@ git archive -l
 git archive --format tar.gz -o /path/to/foo.tar.gz [branch]
 </pre>
   
-<h2 id="toc_6.2">show outgoing/incoming chgs</h2>
+<h2 id="toc_7.2">show outgoing/incoming chgs</h2>
 
 <p>
 similar as <code>hg outgoing/incoming</code>:
@@ -228,7 +258,7 @@ git whatchanged ..origin
 git whatchanged origin..
 </pre>
 
-<h2 id="toc_6.3">remote</h2>
+<h2 id="toc_7.3">remote</h2>
 
 <p>
 remove branches that were already removed remotely: <strong>prune</strong>
