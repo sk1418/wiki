@@ -112,7 +112,24 @@ E.g. "git branch --track mybranch @{-1}", "git merge @{-1}", and
 <code>git checkout -</code> is a shorthand for <code>git checkout @{-1}</code>.
 </p>
 
-<h2 id="toc_3.2">delete branches</h2>
+<h2 id="toc_3.2">rename branch</h2>
+
+<p>
+Rename = deleting and then re-creating on the remote:
+</p>
+
+<pre class="brush:bash">
+
+git branch -m master master-old
+git push origin :master         # delete master
+git push origin master-old      # create master-old on remote
+
+#for master:
+git checkout -b master some-ref # create a new local master
+git push origin master          # create master on remote
+
+</pre>
+<h2 id="toc_3.3">delete branches</h2>
 
 <p>
 Local branch:
