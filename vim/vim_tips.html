@@ -112,7 +112,8 @@ $(document).ready(function() {
 </ul>
 <li><a href="#toc_9">script</a>
 <ul>
-<li><a href="#toc_9.1">get visual selection</a>
+<li><a href="#toc_9.1">get character under cursor</a>
+<li><a href="#toc_9.2">get visual selection</a>
 </ul>
 <li><a href="#toc_10">Misc Tips</a>
 <ul>
@@ -642,7 +643,13 @@ replace <strong>t</strong> with <strong>m</strong> will do move
 
 
 <h1 id="toc_9">script</h1>
-<h2 id="toc_9.1">get visual selection</h2>
+<h2 id="toc_9.1">get character under cursor</h2>
+
+<pre class="brush: vim">
+	matchstr(getline('.'), '\%' . col('.') . 'c.')
+</pre>
+
+<h2 id="toc_9.2">get visual selection</h2>
 
 <ul>
 <li>
