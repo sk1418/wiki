@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>cipher</title>
+<link rel="stylesheet" type="text/css" href="../template/style/main.css" />
+<link type="text/css" rel="stylesheet" href="../template/style/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="../template/style/shCoreRDark.css"/>
+<script type="text/javascript" src="../template/js/jquery.js"></script>
+<!--For code highlighting-->
+<script type="text/javascript" src="../template/js/shCore.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPlain.js"></script>
+<script type="text/javascript" src="../template/js/shBrushVim.js"></script>
+<script type="text/javascript" src="../template/js/shBrushBash.js"></script>
+<script type="text/javascript" src="../template/js/shBrushCss.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJava.js"></script>
+<script type="text/javascript" src="../template/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="../template/js/shBrushPython.js"></script>
+<script type="text/javascript" src="../template/js/shBrushSql.js"></script>
+<script type="text/javascript" src="../template/js/shBrushXml.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		SyntaxHighlighter.all();
+		if (window.innerWidth >= 460) {
+		var toggler = $('<div class="toggler" title="Toggle Table Of Content">Table Of Content</div>');
+		toc = $('.toc');
+		toc.wrap('<div class="tocWrap">');
+
+		$('.tocWrap').prepend(toggler)
+		.delay(500)
+		.fadeTo(500, '0.7')
+		.hover(function() {
+			$(this).stop().fadeTo(300, '0.9');
+			}, function() {
+			$(this).stop().fadeTo(300, '0.7');
+			});
+
+		$('html').keypress(function(e) {
+			if (e.shiftKey && (e.charCode || e.keyCode) == '90') {
+			e.preventDefault();
+			$('div.tocWrap').toggle(200);
+			}
+			});
+
+		toggler.click(function() {
+				$('div.toc').slideToggle(300);
+				});
+		}
+
+		$("a,h1,h2,h3,h4,h5,h6").filter(function(index){
+			return $(this).text()=='!Important!';
+				}).addClass("importantMarker");
+
+		
+
+});
+
+
+
+</script>
+</head>
+<body >
+<header id="header">
+<div id="logo" style="font-size: 22pt;text-align:center;"><a href="#">Kent's Wiki</a></div>
+</header>
+<div id="wrap">
+<div id="content">
+
+
+<p>
+needs bouncycastle library:
+</p>
+
+<pre class="brush:xml">
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.bouncycastle&lt;/groupId&gt;
+			&lt;artifactId&gt;bcprov-jdk15on&lt;/artifactId&gt;
+			&lt;version&gt;1.51&lt;/version&gt;
+		&lt;/dependency&gt;
+</pre>
+
+<p>
+java codes:
+</p>
+
+<pre class="brush: java">
+
+import org.bouncycastle.crypto.engines.CAST5Engine; =
+import org.bouncycastle.crypto.modes.CFBBlockCipher;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.params.ParametersWithIV;
+import org.bouncycastle.util.Strings;
+import org.bouncycastle.util.encoders.Hex;
+
+
+ public void testCipher() throws UnsupportedEncodingException {
+	String plain = "I am a plain String, yohoo!";
+	int blockSize = 8;
+	byte[] oBytes = plain.getBytes();
+	byte[] enBytes =  new byte[oBytes.length];
+	log.debug("plain :"+plain);
+	String key = "Iamakey";
+
+	//encryption
+	boolean doEn = true;
+	CAST5Engine cast5 = new CAST5Engine();
+	Random r = new Random(new Date().getTime());
+	byte[] iv = new byte[8];
+	r.nextBytes(iv);
+	ParametersWithIV ivPara = new ParametersWithIV(new KeyParameter(Strings.toByteArray(key)), iv);
+	CFBBlockCipher cfbCipher = new CFBBlockCipher(cast5, blockSize);
+	cfbCipher.init(doEn, ivPara);
+	for(int i=0;i&lt;oBytes.length;i++)
+		cfbCipher.processBlock(oBytes, i, enBytes, i);
+	enBytes = Bytes.concat(iv, enBytes);
+	String enStr = Hex.toHexString(enBytes);
+	log.debug("Encrypted :"+ enStr);
+
+	//decryption from String
+	doEn = false;
+	enBytes = Hex.decode(enStr);
+	iv = Arrays.copyOfRange(enBytes, 0, 8);
+	byte[] msgArray = Arrays.copyOfRange(enBytes, 8, enBytes.length);
+	cfbCipher = new CFBBlockCipher(cast5, 8);
+	cfbCipher.init(doEn, new ParametersWithIV(new KeyParameter(key.getBytes()),iv ));
+
+	byte[] deBytes =  new byte[msgArray.length];
+	for(int i=0;i&lt;msgArray.length;i++)
+		cfbCipher.processBlock(msgArray, i, deBytes, i);
+	log.debug("Decrypted :" + Strings.fromByteArray(deBytes));
+	assertEquals(plain, Strings.fromByteArray(deBytes));
+}
+
+</pre>
+
+</div>
+</div>
+<div id="footer">
+<a href="http://www.vim.org" target="_blank"><img border="0" src="../template/images/vimLogo.png" alt="Created with Vim" height="36" width="90"></a>
+</div>
+</body>
+</html>
