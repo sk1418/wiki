@@ -72,6 +72,7 @@ $(document).ready(function() {
 <li><a href="#toc_1">check history</a>
 <ul>
 <li><a href="#toc_1.1">check history of a file</a>
+<li><a href="#toc_1.2">check changed files in a commit</a>
 </ul>
 <li><a href="#toc_2">find files</a>
 <ul>
@@ -99,13 +100,18 @@ $(document).ready(function() {
 </ul>
 <li><a href="#toc_7">Misc</a>
 <ul>
-<li><a href="#toc_7.1">git archive</a>
-<li><a href="#toc_7.2">show outgoing/incoming chgs</a>
-<li><a href="#toc_7.3">remote</a>
+<li><a href="#toc_7.1">git alias</a>
+<ul>
+<li><a href="#toc_7.1.1">multiple commands and arguments</a>
+</ul>
+<li><a href="#toc_7.2">git archive</a>
+<li><a href="#toc_7.3">show outgoing/incoming chgs</a>
+<li><a href="#toc_7.4">remote</a>
 </ul>
 </ul>
 </div>
 <h1 id="toc_1">check history</h1>
+
 <h2 id="toc_1.1">check history of a file</h2>
 
 <pre class="brush: bash">
@@ -121,6 +127,11 @@ if need the content of each commit:
 
 <pre class="brush: bash">
 	git log --follow -p filename
+</pre>
+
+<h2 id="toc_1.2">check changed files in a commit</h2>
+<pre class="brush: bash">
+	git diff-tree --no-commit-id --name-only -r [commitHash]
 </pre>
 
 <h1 id="toc_2">find files</h1>
@@ -274,7 +285,25 @@ git clean -df
 
 <h1 id="toc_7">Misc</h1>
 
-<h2 id="toc_7.1">git archive</h2>
+<h2 id="toc_7.1">git alias</h2>
+<h3 id="toc_7.1.1">multiple commands and arguments</h3>
+
+<p>
+function way:
+</p>
+
+<pre class="brush: bash">
+	files = "!f() { git diff --name-status $1^ $1; }; f"
+</pre>
+
+<p>
+An alias without <code>!</code> is treated as a Git command; e.g. <code>commit-all = commit -a</code>.
+</p>
+
+<p>
+With the <code>!</code>, it's run as its own command in the shell, letting you use stronger magic like this.
+</p>
+<h2 id="toc_7.2">git archive</h2>
 
 <pre class="brush: bash">
 # list supported format
@@ -284,7 +313,7 @@ git archive -l
 git archive --format tar.gz -o /path/to/foo.tar.gz [branch]
 </pre>
   
-<h2 id="toc_7.2">show outgoing/incoming chgs</h2>
+<h2 id="toc_7.3">show outgoing/incoming chgs</h2>
 
 <p>
 similar as <code>hg outgoing/incoming</code>:
@@ -313,7 +342,7 @@ git whatchanged ..origin
 git whatchanged origin..
 </pre>
 
-<h2 id="toc_7.3">remote</h2>
+<h2 id="toc_7.4">remote</h2>
 
 <p>
 remove branches that were already removed remotely: <strong>prune</strong>
