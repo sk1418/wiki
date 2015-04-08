@@ -100,15 +100,16 @@ $(document).ready(function() {
 <li><a href="#toc_8.2.2">lines</a>
 <li><a href="#toc_8.2.3">columns</a>
 </ul>
-<li><a href="#toc_8.3">Regex</a>
+<li><a href="#toc_8.3">substitution trick</a>
+<li><a href="#toc_8.4">Regex</a>
 <ul>
-<li><a href="#toc_8.3.1">character class</a>
-<li><a href="#toc_8.3.2">some special character class</a>
-<li><a href="#toc_8.3.3">Ordinary atoms</a>
-<li><a href="#toc_8.3.4">Other Patterns</a>
+<li><a href="#toc_8.4.1">character class</a>
+<li><a href="#toc_8.4.2">some special character class</a>
+<li><a href="#toc_8.4.3">Ordinary atoms</a>
+<li><a href="#toc_8.4.4">Other Patterns</a>
 </ul>
-<li><a href="#toc_8.4">Handle search result (by / or ?)</a>
-<li><a href="#toc_8.5">Copy/Move lines</a>
+<li><a href="#toc_8.5">Handle search result (by / or ?)</a>
+<li><a href="#toc_8.6">Copy/Move lines</a>
 </ul>
 <li><a href="#toc_9">script</a>
 <ul>
@@ -247,6 +248,12 @@ scrolling jump
 		<code>/\&lt;fu\%[nction]\&gt;</code>
 
 </ul>
+		
+<ul>
+<li>
+<code>/.*foo\&amp;.*bar</code> : search "foo" AND "bar" <strong>In any ORDER</strong>
+
+</ul>
 <h2 id="toc_2.3">handle search result</h2>
 <ul>
 <li>
@@ -265,7 +272,6 @@ scrolling jump
 <code>//&lt;CR&gt;</code>   : move to  the beginning of next match
 
 </ul>
-
 
 <p>
 !Important! ends
@@ -452,8 +458,19 @@ for example:
 <code>\%&gt;23c</code>	Matches after a specific column.
 </p>
 
-<h2 id="toc_8.3">Regex</h2>
-<h3 id="toc_8.3.1">character class</h3>
+<h2 id="toc_8.3">substitution trick</h2>
+
+<p>
+Do something like sed/awk's <code>/pattern1/,/pattern2/ s/foo/bar/</code>
+</p>
+<pre class="brush: vim">
+	g/pattern1/.,/pattern2/s/foo/bar/g
+	
+	.,/pattern2/ is a range, from current line to the next /pattern2/ matching line
+</pre>
+	
+<h2 id="toc_8.4">Regex</h2>
+<h3 id="toc_8.4.1">character class</h3>
 <ul>
 <li>
 <code>\s</code> 	whitespace character: &lt;Space&gt; and &lt;Tab&gt;		<strong>/\s</strong>
@@ -515,7 +532,7 @@ for example:
 	NOTE: Using the atom is faster than the [] form.
 </p>
 
-<h3 id="toc_8.3.2">some special character class</h3>
+<h3 id="toc_8.4.2">some special character class</h3>
 <p>
 useful for highlighting
 </p>
@@ -546,7 +563,7 @@ useful for highlighting
 <code>\P</code>	like "\p", but excluding digits			*/\P
 
 </ul>
-<h3 id="toc_8.3.3">Ordinary atoms</h3>
+<h3 id="toc_8.4.3">Ordinary atoms</h3>
 <ul>
 <li>
 <code>\_^ </code>	start of line, any position, <strong>zero-width</strong>
@@ -585,8 +602,8 @@ useful for highlighting
 <code>\%&gt;'m</code>	Matches after the position of mark m.
 
 </ul>
-<h3 id="toc_8.3.4">Other Patterns</h3>
-<h2 id="toc_8.4">Handle search result (by / or ?)</h2>
+<h3 id="toc_8.4.4">Other Patterns</h3>
+<h2 id="toc_8.5">Handle search result (by / or ?)</h2>
 
 <ul>
 <li>
@@ -607,7 +624,7 @@ useful for highlighting
 </ul>
 
 		
-<h2 id="toc_8.5">Copy/Move lines</h2>
+<h2 id="toc_8.6">Copy/Move lines</h2>
 
 <p>
 :copy or :t
