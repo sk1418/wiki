@@ -74,10 +74,11 @@ $(document).ready(function() {
 <li><a href="#toc_1.1">check history of a file</a>
 <li><a href="#toc_1.2">check changed files in a commit</a>
 </ul>
-<li><a href="#toc_2">find files</a>
+<li><a href="#toc_2">check files</a>
 <ul>
 <li><a href="#toc_2.1">ls-files</a>
-<li><a href="#toc_2.2">grep files</a>
+<li><a href="#toc_2.2">changed files</a>
+<li><a href="#toc_2.3">grep files</a>
 </ul>
 <li><a href="#toc_3">Branches</a>
 <ul>
@@ -134,7 +135,7 @@ if need the content of each commit:
 	git diff-tree --no-commit-id --name-only -r [commitHash]
 </pre>
 
-<h1 id="toc_2">find files</h1>
+<h1 id="toc_2">check files</h1>
 
 <h2 id="toc_2.1">ls-files</h2>
 <p>
@@ -143,8 +144,25 @@ supports glob
 <pre class="brush: bash">
 	git ls-files
 </pre>
+
+<h2 id="toc_2.2">changed files</h2>
+<p>
+check changed files in a commit
+</p>
+
+<pre class="brush: bash">
+	git diff-tree --no-commit-id --name-only -r [commitHash]
+</pre>
+
+<p>
+or
+</p>
+
+<pre class="brush: bash">
+	git show --pretty="format:" --name-only [hash] 
+</pre>
   
-<h2 id="toc_2.2">grep files</h2>
+<h2 id="toc_2.3">grep files</h2>
 
 <h1 id="toc_3">Branches</h1>
 
