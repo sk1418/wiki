@@ -449,6 +449,15 @@ for example:
 <li>
 <code>\%&gt;23l</code> :	Matches below a specific line (higher line number).
 
+<li>
+search in current line:
+
+<li>
+
+<pre class="brush: vim">
+  noremap &lt;expr&gt; &lt;Leader&gt;/ '/\%' . line('.') . 'l'
+</pre>
+
 </ul>
 
 <h3 id="toc_8.2.3">columns</h3>
