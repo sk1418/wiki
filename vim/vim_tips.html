@@ -101,6 +101,10 @@ $(document).ready(function() {
 <li><a href="#toc_8.2.3">columns</a>
 </ul>
 <li><a href="#toc_8.3">substitution trick</a>
+<ul>
+<li><a href="#toc_8.3.1">Do something like sed/awk's <code>/pattern1/,/pattern2/ s/foo/bar/</code></a>
+<li><a href="#toc_8.3.2">Char to Hex</a>
+</ul>
 <li><a href="#toc_8.4">Regex</a>
 <ul>
 <li><a href="#toc_8.4.1">character class</a>
@@ -467,18 +471,27 @@ search in current line:
 
 <h2 id="toc_8.3">substitution trick</h2>
 
-<p>
-Do something like sed/awk's <code>/pattern1/,/pattern2/ s/foo/bar/</code>
-</p>
+<h3 id="toc_8.3.1">Do something like sed/awk's <code>/pattern1/,/pattern2/ s/foo/bar/</code></h3>
 <pre class="brush: vim">
 	g/pattern1/.,/pattern2/s/foo/bar/g
 	
 	.,/pattern2/ is a range, from current line to the next /pattern2/ matching line
 </pre>
-	
+
+<h3 id="toc_8.3.2">Char to Hex</h3>
+<p>
+Encode all non-ascii characters into Hex
+</p>
+<pre class="brush: vim">
+	%s/[^\x00-\x7f]/\=printf('\x%x',char2nr(submatch(0)))/g
+</pre>
+
 <h2 id="toc_8.4">Regex</h2>
 <h3 id="toc_8.4.1">character class</h3>
 <ul>
+<li>
+<code>[\x00-\x7f]</code> any ascii chars
+
 <li>
 <code>\s</code> 	whitespace character: &lt;Space&gt; and &lt;Tab&gt;		<strong>/\s</strong>
 
