@@ -73,6 +73,14 @@ $(document).ready(function() {
 <li><a href="#toc_2">!Important!</a>
 <ul>
 <li><a href="#toc_2.1">Tricks</a>
+<ul>
+<li><a href="#toc_2.1.1">highlight word under cursor</a>
+<li><a href="#toc_2.1.2">How to search for a URL without backslashing</a>
+<li><a href="#toc_2.1.3">reverse text</a>
+<li><a href="#toc_2.1.4">separate letters</a>
+<li><a href="#toc_2.1.5">scrolling jump</a>
+<li><a href="#toc_2.1.6">"= register</a>
+</ul>
 <li><a href="#toc_2.2">regex</a>
 <li><a href="#toc_2.3">handle search result</a>
 </ul>
@@ -122,6 +130,8 @@ $(document).ready(function() {
 </ul>
 <li><a href="#toc_10">Misc Tips</a>
 <ul>
+<li><a href="#toc_10.0.1">convert escaped codevalue to unicode character</a>
+</ul>
 <li><a href="#toc_10.1">color hi</a>
 <li><a href="#toc_10.2">Mapping</a>
 <li><a href="#toc_10.3">About <code>!</code></a>
@@ -153,14 +163,15 @@ alternative buffer (#)
 </ul>
 
 <h2 id="toc_2.1">Tricks</h2>
-<ul>
-<li>
-highlight word under cursor: <code>/\k*\%#\k*</code>
 
-<li>
-How to search for a URL without backslashing
+<h3 id="toc_2.1.1">highlight word under cursor</h3>
 
-</ul>
+<p>
+<code>/\k*\%#\k*</code>
+</p>
+
+<h3 id="toc_2.1.2">How to search for a URL without backslashing</h3>
+
 <p>
 use backwards search <code>?</code> skip the escaping, isn't it clever?!
 <code>?http://www.vim.org/</code>       
@@ -188,9 +199,7 @@ Use Vim's spell check feature to split this sentence into words using spaces.
 	- amazing solution (18) : A[sE&lt;C-V&gt;dgvpP@.&lt;Esc&gt;U@.ZZ
 </pre>
  
-<ul>
-<li>
-reverse text
+<h3 id="toc_2.1.3">reverse text</h3>
 
 <ul>
 <li>
@@ -200,11 +209,8 @@ option 1: <code>set ri then cut (C/D/S) the text, and i_ctrl-r "</code>
 option 2: <code>$ (move to the end)qq&lt;c-v&gt;}xPq then x@q x is the columns</code>
 
 </ul>
-</ul>
 
-<ul>
-<li>
-separate letters
+<h3 id="toc_2.1.4">separate letters</h3>
 <pre>
 change abcde into -a-b-c-d-e-  
 :s/\_A*/-/g
@@ -212,20 +218,50 @@ change abcde into -a-b-c-d-e-
 using \A* won't add the - to the end. 
 </pre>
 
-</ul>
-<p>
-chan
-</p>
 
-<ul>
-<li>
-scrolling jump
-
-</ul>
+<h3 id="toc_2.1.5">scrolling jump</h3>
 
 <pre>
 	set sj to set the scrolling jump manner. :h 'sj'
 </pre>
+
+<h3 id="toc_2.1.6">"= register</h3>
+
+<p>
+<code>:h "=</code> for details
+</p>
+
+<p>
+change:
+</p>
+<pre>
+- One number per line -
+-----------------------
+2,3,5,7,
+11,13,17,
+19,23,29,
+</pre>
+  
+<p>
+into:
+</p>
+
+<pre>
+2
+3
+5
+7
+11
+13
+17
+19
+23
+29
+</pre>
+
+<p>
+this will do it: <code>5gJV"=[&lt;C-R&gt;&lt;C-A&gt;]&lt;CR&gt;pZZ</code>
+</p>
 
 <h2 id="toc_2.2">regex</h2>
 
@@ -743,6 +779,16 @@ endfunction
 
 <h1 id="toc_10">Misc Tips</h1>
 
+<h3 id="toc_10.0.1">convert escaped codevalue to unicode character</h3>
+<p>
+<a href="http://stackoverflow.com/questions/21076598/convert-escaped-codepoint-to-unicode-character/21076866#21076866">http://stackoverflow.com/questions/21076598/convert-escaped-codepoint-to-unicode-character/21076866#21076866</a>
+</p>
+<pre>
+s#\\u[0-9a-f]*#\=eval('"'.submatch(0).'"')#
+or
+s#\v\\u([0-9a-f]{4})#\=nr2char(str2nr(submatch(1),16))#
+</pre>
+
 <h2 id="toc_10.1">color hi</h2>
 <ul>
 <li>
@@ -786,9 +832,11 @@ nnoremap &lt;expr&gt; go '/^' . nr2char(getchar()) . '&lt;CR&gt;'
 <code>map &lt;silent&gt;</code>   : hide message in command line window
 
 <li>
-<code>silent command</code> : hide messages
+<code>:silent[!] command</code> : hide messages. with <code>!</code>, the errMsg will be skipped too.
 
 </ul>
+
+
 
 <p>
 <a href="../index.html">&lt;&lt;Back</a>

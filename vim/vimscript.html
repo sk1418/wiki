@@ -68,7 +68,50 @@ $(document).ready(function() {
 <div id="content">
 
 <h1 id="toc_1">Variable</h1>
-<h2 id="toc_1.1">Condition</h2>
+<h2 id="toc_1.1">List unpacking</h2>
+<pre>
+	:h let-unpack
+</pre>
+<p>
+Vim allows you to create and populate two variables from a list:
+</p>
+
+<pre>
+let [var1, var2] = mylist
+</pre>
+  
+<p>
+which is equivalent to:
+</p>
+
+<pre>
+	let var1 = mylist[0]
+	let var2 = mylist[1]
+</pre>
+
+<p>
+There is also an (untagged) section on that help page titled "List unpack". It says you can do:
+</p>
+
+<pre>
+	let [var1, var2; rest] = mylist
+</pre>
+<p>
+to collect an optional unknown number of items in a list.
+</p>
+
+<p>
+And you can use a related trick to perform operations on multiple existing variables at once:
+</p>
+<pre>
+	let [var1, var2] += 1
+</pre>
+
+<p>
+There is lots to like about this language.
+</p>
+
+<h2 id="toc_1.2">Condition</h2>
 <ul>
 <li>
 <code>"foo"</code>  : False
@@ -98,6 +141,7 @@ $(document).ready(function() {
 <code>10 + "20.10" = 30</code> "20.10" convert to number is 20.
 
 </ul>
+
 
 <h1 id="toc_3">Function</h1>
 
