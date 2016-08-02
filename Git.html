@@ -69,51 +69,80 @@ $(document).ready(function() {
 
 <div class="toc">
 <ul>
-<li><a href="#toc_1">check history</a>
+<li><a href="#toc_1">revert/cancel changes</a>
 <ul>
-<li><a href="#toc_1.1">check history of a file</a>
-<li><a href="#toc_1.2">check changed files in a commit</a>
+<li><a href="#toc_1.1">undo last pull</a>
 </ul>
-<li><a href="#toc_2">check files</a>
+<li><a href="#toc_2">check history</a>
 <ul>
-<li><a href="#toc_2.1">ls-files</a>
-<li><a href="#toc_2.2">changed files</a>
-<li><a href="#toc_2.3">grep files</a>
+<li><a href="#toc_2.1">check history of a file</a>
+<li><a href="#toc_2.2">check changed files in a commit</a>
 </ul>
-<li><a href="#toc_3">Branches</a>
+<li><a href="#toc_3">check files</a>
 <ul>
-<li><a href="#toc_3.1">To Last branch</a>
-<li><a href="#toc_3.2">rename branch</a>
-<li><a href="#toc_3.3">delete branches</a>
+<li><a href="#toc_3.1">ls-files</a>
+<li><a href="#toc_3.2">changed files</a>
+<li><a href="#toc_3.3">grep files</a>
 </ul>
-<li><a href="#toc_4">Diff</a>
+<li><a href="#toc_4">Branches</a>
 <ul>
-<li><a href="#toc_4.1">working copy &amp; local repo</a>
-<li><a href="#toc_4.2">stage area &amp; local repo</a>
-<li><a href="#toc_4.3">local repo &amp; remote repo</a>
+<li><a href="#toc_4.1">To Last branch</a>
+<li><a href="#toc_4.2">rename branch</a>
+<li><a href="#toc_4.3">delete branches</a>
 </ul>
-<li><a href="#toc_5">discard changes</a>
-<li><a href="#toc_6">ignore changes to already tracked files</a>
+<li><a href="#toc_5">Diff</a>
 <ul>
-<li><a href="#toc_6.1">modified files</a>
-<li><a href="#toc_6.2">untracked</a>
-<li><a href="#toc_6.3">revert commited</a>
+<li><a href="#toc_5.1">working copy &amp; local repo</a>
+<li><a href="#toc_5.2">stage area &amp; local repo</a>
+<li><a href="#toc_5.3">local repo &amp; remote repo</a>
 </ul>
-<li><a href="#toc_7">Misc</a>
+<li><a href="#toc_6">discard changes</a>
+<li><a href="#toc_7">ignore changes to already tracked files</a>
 <ul>
-<li><a href="#toc_7.1">git alias</a>
-<ul>
-<li><a href="#toc_7.1.1">multiple commands and arguments</a>
+<li><a href="#toc_7.1">modified files</a>
+<li><a href="#toc_7.2">untracked</a>
+<li><a href="#toc_7.3">revert commited</a>
 </ul>
-<li><a href="#toc_7.2">git archive</a>
-<li><a href="#toc_7.3">show outgoing/incoming chgs</a>
-<li><a href="#toc_7.4">remote</a>
+<li><a href="#toc_8">Misc</a>
+<ul>
+<li><a href="#toc_8.1">git alias</a>
+<ul>
+<li><a href="#toc_8.1.1">multiple commands and arguments</a>
+</ul>
+<li><a href="#toc_8.2">git archive</a>
+<li><a href="#toc_8.3">show outgoing/incoming chgs</a>
+<li><a href="#toc_8.4">remote</a>
 </ul>
 </ul>
 </div>
-<h1 id="toc_1">check history</h1>
 
-<h2 id="toc_1.1">check history of a file</h2>
+<h1 id="toc_1">revert/cancel changes</h1>
+<h2 id="toc_1.1">undo last pull</h2>
+<pre class="brush: bash">
+    git pull 
+	
+	whoops?
+
+	git reset HEAD@{1}
+	
+	
+Note1: 
+	
+	ORIG_HEAD is previous state of HEAD, set by commands that have possibly dangerous behavior, to be easy to revert them. It is less useful now that Git has reflog: HEAD@{1} is roughly equivalent to ORIG_HEAD (HEAD@{1} is always last value of HEAD, ORIG_HEAD is last value of HEAD before dangerous operation)
+	
+Note2:
+
+ Meanwhile man git-rev-parse describes this. HEAD@{1} is the previous value of symbolic HEAD in the reflog whereas HEAD^ is the (first) parent revision of the current HEAD. These two need nod be equivalent (e.g. after a rebase, a hard reset, a branch switch and such things). Do read the linked article for reflog.
+</pre>
+
+<p>
+<code>git reflog show</code> should show you the history of HEAD. You can use that to figure out where you were before the pull. Then you can reset your HEAD to that commit.
+</p>
+  
+
+<h1 id="toc_2">check history</h1>
+
+<h2 id="toc_2.1">check history of a file</h2>
 
 <pre class="brush: bash">
 	gitk filename
@@ -130,14 +159,14 @@ if need the content of each commit:
 	git log --follow -p filename
 </pre>
 
-<h2 id="toc_1.2">check changed files in a commit</h2>
+<h2 id="toc_2.2">check changed files in a commit</h2>
 <pre class="brush: bash">
 	git diff-tree --no-commit-id --name-only -r [commitHash]
 </pre>
 
-<h1 id="toc_2">check files</h1>
+<h1 id="toc_3">check files</h1>
 
-<h2 id="toc_2.1">ls-files</h2>
+<h2 id="toc_3.1">ls-files</h2>
 <p>
 supports glob
 </p>
@@ -145,7 +174,7 @@ supports glob
 	git ls-files
 </pre>
 
-<h2 id="toc_2.2">changed files</h2>
+<h2 id="toc_3.2">changed files</h2>
 <p>
 check changed files in a commit
 </p>
@@ -162,11 +191,11 @@ or
 	git show --pretty="format:" --name-only [hash] 
 </pre>
   
-<h2 id="toc_2.3">grep files</h2>
+<h2 id="toc_3.3">grep files</h2>
 
-<h1 id="toc_3">Branches</h1>
+<h1 id="toc_4">Branches</h1>
 
-<h2 id="toc_3.1">To Last branch</h2>
+<h2 id="toc_4.1">To Last branch</h2>
 
 <pre>
 @{-1} is a way to refer to the last branch you were on. This is accepted not only where an object name is expected, but anywhere a branch name is expected and acts as if you typed the branch name.
@@ -179,7 +208,7 @@ E.g. "git branch --track mybranch @{-1}", "git merge @{-1}", and
 <code>git checkout -</code> is a shorthand for <code>git checkout @{-1}</code>.
 </p>
 
-<h2 id="toc_3.2">rename branch</h2>
+<h2 id="toc_4.2">rename branch</h2>
 
 <p>
 Rename = deleting and then re-creating on the remote:
@@ -196,7 +225,7 @@ git checkout -b master some-ref # create a new local master
 git push origin master          # create master on remote
 
 </pre>
-<h2 id="toc_3.3">delete branches</h2>
+<h2 id="toc_4.3">delete branches</h2>
 
 <p>
 Local branch:
@@ -216,20 +245,20 @@ Remote branch:
 	git push origin :branchname
 </pre>
 
-<h1 id="toc_4">Diff</h1>
+<h1 id="toc_5">Diff</h1>
 
-<h2 id="toc_4.1">working copy &amp; local repo</h2>
+<h2 id="toc_5.1">working copy &amp; local repo</h2>
 <pre class="brush: bash">
 git diff
 </pre>
 	
-<h2 id="toc_4.2">stage area &amp; local repo</h2>
+<h2 id="toc_5.2">stage area &amp; local repo</h2>
 <pre class="brush: bash">
 git diff --cached
 </pre>
   
 
-<h2 id="toc_4.3">local repo &amp; remote repo</h2>
+<h2 id="toc_5.3">local repo &amp; remote repo</h2>
 <pre class="brush: bash">
   git fetch 
   
@@ -240,9 +269,9 @@ git diff --cached
   git diff HEAD..origin
 </pre>
 
-<h1 id="toc_5">discard changes</h1>
+<h1 id="toc_6">discard changes</h1>
 
-<h1 id="toc_6">ignore changes to already tracked files</h1>
+<h1 id="toc_7">ignore changes to already tracked files</h1>
 
 <ul>
 <li>
@@ -272,7 +301,7 @@ make the <code>.gitignore</code> work
 	path/filename
 </pre>
 
-<h2 id="toc_6.1">modified files</h2>
+<h2 id="toc_7.1">modified files</h2>
 
 <pre class="brush: bash">
 
@@ -285,7 +314,7 @@ git reset --hard
 
 </pre>
   
-<h2 id="toc_6.2">untracked</h2>
+<h2 id="toc_7.2">untracked</h2>
 
 <pre class="brush: bash">
 
@@ -296,15 +325,15 @@ git reset --hard
 git clean -df
 </pre>
   
-<h2 id="toc_6.3">revert commited</h2>
+<h2 id="toc_7.3">revert commited</h2>
 <p>
 <code>git revert ...</code>
 </p>
 
-<h1 id="toc_7">Misc</h1>
+<h1 id="toc_8">Misc</h1>
 
-<h2 id="toc_7.1">git alias</h2>
-<h3 id="toc_7.1.1">multiple commands and arguments</h3>
+<h2 id="toc_8.1">git alias</h2>
+<h3 id="toc_8.1.1">multiple commands and arguments</h3>
 
 <p>
 function way:
@@ -321,7 +350,7 @@ An alias without <code>!</code> is treated as a Git command; e.g. <code>commit-a
 <p>
 With the <code>!</code>, it's run as its own command in the shell, letting you use stronger magic like this.
 </p>
-<h2 id="toc_7.2">git archive</h2>
+<h2 id="toc_8.2">git archive</h2>
 
 <pre class="brush: bash">
 # list supported format
@@ -331,7 +360,7 @@ git archive -l
 git archive --format tar.gz -o /path/to/foo.tar.gz [branch]
 </pre>
   
-<h2 id="toc_7.3">show outgoing/incoming chgs</h2>
+<h2 id="toc_8.3">show outgoing/incoming chgs</h2>
 
 <p>
 similar as <code>hg outgoing/incoming</code>:
@@ -360,7 +389,7 @@ git whatchanged ..origin
 git whatchanged origin..
 </pre>
 
-<h2 id="toc_7.4">remote</h2>
+<h2 id="toc_8.4">remote</h2>
 
 <p>
 remove branches that were already removed remotely: <strong>prune</strong>
