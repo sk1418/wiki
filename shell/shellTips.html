@@ -71,6 +71,7 @@ $(document).ready(function() {
 <ul>
 <li><a href="#toc_1">variable expansion</a>
 <li><a href="#toc_2">output overwrites same screen area</a>
+<li><a href="#toc_3">redirection and tee</a>
 </ul>
 </div>
 
@@ -156,7 +157,41 @@ while true; do
 done
 </pre>
 
+<h1 id="toc_3">redirection and tee</h1>
+<p>
+<a href="http://stackoverflow.com/questions/42251446/write-stderr-and-stdout-to-one-file-but-also-write-stderr-to-a-separate-file">http://stackoverflow.com/questions/42251446/write-stderr-and-stdout-to-one-file-but-also-write-stderr-to-a-separate-file</a>
+</p>
 
+<p>
+I have a shell script whose stdout and stderr I want to write to a logfile. I know that this can be achieved via
+</p>
+
+<pre>
+	sh script.sh &gt;&gt; both.log 2&gt;&amp;1
+</pre>
+<p>
+However, I also want to simultaneously write the stderr to a separate file, "error.log". Is this achievable?
+</p>
+
+<p>
+<strong>Answer</strong>
+You can use tee to duplicate output to two locations. Combine that with some tricky redirections, and...
+</p>
+
+<pre>
+	script.sh 2&gt;&amp;1 &gt;&gt; both.log | tee -a both.log &gt;&gt; error.log
+</pre>
+<p>
+This redirects stderr to stdout, and then stdout to both.log. stderr remains, and is piped to tee, which copies it to both log files.
+</p>
+
+<p>
+Q2:I don't see how this keeps only std-err msgs in the error.log file. Aren't then mixed together with<code> 2&gt;&amp;1</code> (and indistinguishable). ? 
+</p>
+
+<p>
+If the order were swapped <code>&gt;&gt; both.log 2&gt;&amp;1</code> then they'd be mixed together. Redirections are counterintuitive. <code>2&gt;&amp;1</code> doesn't mean "stderr goes to stdout". It means "stderr goes to wherever stdout is going to". Think of it like variable assignment. x = 5; y = x; x = 7; -- the value of y is 5, not 7. 
+</p>
 
 <p>
 <a href="../index.html">&lt;&lt;Back</a>
