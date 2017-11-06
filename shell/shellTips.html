@@ -72,6 +72,7 @@ $(document).ready(function() {
 <li><a href="#toc_1">variable expansion</a>
 <li><a href="#toc_2">output overwrites same screen area</a>
 <li><a href="#toc_3">redirection and tee</a>
+<li><a href="#toc_4">base change with shell(bash)</a>
 </ul>
 </div>
 
@@ -193,6 +194,19 @@ Q2:I don't see how this keeps only std-err msgs in the error.log file. Aren't th
 If the order were swapped <code>&gt;&gt; both.log 2&gt;&amp;1</code> then they'd be mixed together. Redirections are counterintuitive. <code>2&gt;&amp;1</code> doesn't mean "stderr goes to stdout". It means "stderr goes to wherever stdout is going to". Think of it like variable assignment. x = 5; y = x; x = 7; -- the value of y is 5, not 7. 
 </p>
 
+<h1 id="toc_4">base change with shell(bash)</h1>
+
+<p>
+from base = fbase
+to base = tbase
+default 10
+</p>
+<pre>
+	echo $((fbase#value))  # change value from fbase to DEC  echo $$((16# FF)) -&gt; 255
+	echo $(([#tbase]#DecValue))  # change DecValue to to-base e.g. echo $$(([#16]255)) -&gt; 16#FF
+	echo $(([##tbase]#DecValue))  # change DecValue to to-base e.g. echo $$(([##16]255)) -&gt; FF
+	echo $(([##tBase] fbase#fValue)) # change fValue from fBase to tBase e.g. $(([##16] 2#1011 )) -&gt; FF
+</pre>
 <p>
 <a href="../index.html">&lt;&lt;Back</a>
 </p>
